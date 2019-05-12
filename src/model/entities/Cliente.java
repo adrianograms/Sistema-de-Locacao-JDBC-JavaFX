@@ -1,23 +1,26 @@
 package model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private String nome;
-	private char sexo;
+	private Character sexo;
 	private String email;
 	private String cpf;
 	private String telefone;
+	private List<Endereco> enderecos;
 	
 	public Cliente() {
 	}
 	
 	
 	
-	public Cliente(Integer id, String nome, char sexo, String email, String cpf, String telefone) {
+	public Cliente(Integer id, String nome, Character sexo, String email, String cpf, String telefone) {
 		this.id = id;
 		this.nome = nome;
 		this.sexo = sexo;
@@ -43,11 +46,11 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 	}
 	
-	public char getSexo() {
+	public Character getSexo() {
 		return sexo;
 	}
 	
-	public void setSexo(char sexo) {
+	public void setSexo(Character sexo) {
 		this.sexo = sexo;
 	}
 	
@@ -75,7 +78,15 @@ public class Cliente implements Serializable {
 		this.telefone = telefone;
 	}
 
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
 
+	public void setEnderecos(Endereco endereco) {
+		if(enderecos == null)
+			enderecos = new ArrayList<Endereco>();
+		enderecos.add(endereco);
+	}
 
 	@Override
 	public int hashCode() {

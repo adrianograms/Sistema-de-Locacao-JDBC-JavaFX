@@ -8,8 +8,8 @@ public class Equipamento implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double diaria;
-	private Double Semanal;
-	private Double Quinzenal;
+	private Double semanal;
+	private Double quinzenal;
 	private Double mensal;
 	private String descricao;
 	
@@ -21,8 +21,8 @@ public class Equipamento implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.diaria = diaria;
-		Semanal = semanal;
-		Quinzenal = quinzenal;
+		this.semanal = semanal;
+		this.quinzenal = quinzenal;
 		this.mensal = mensal;
 		this.descricao = descricao;
 	}
@@ -59,22 +59,22 @@ public class Equipamento implements Serializable {
 	
 	
 	public Double getSemanal() {
-		return Semanal;
+		return semanal;
 	}
 	
 	
 	public void setSemanal(Double semanal) {
-		Semanal = semanal;
+		this.semanal = semanal;
 	}
 	
 	
 	public Double getQuinzenal() {
-		return Quinzenal;
+		return quinzenal;
 	}
 	
 	
 	public void setQuinzenal(Double quinzenal) {
-		Quinzenal = quinzenal;
+		this.quinzenal = quinzenal;
 	}
 	
 	
@@ -124,8 +124,8 @@ public class Equipamento implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Equipamento [id=" + id + ", nome=" + nome + ", diaria=" + diaria + ", Semanal=" + Semanal
-				+ ", Quinzenal=" + Quinzenal + ", mensal=" + mensal + ", descricao=" + descricao + "]";
+		return "Equipamento [id=" + id + ", nome=" + nome + ", diaria=" + diaria + ", Semanal=" + semanal
+				+ ", Quinzenal=" + quinzenal + ", mensal=" + mensal + ", descricao=" + descricao + "]";
 	}
 	
 	
