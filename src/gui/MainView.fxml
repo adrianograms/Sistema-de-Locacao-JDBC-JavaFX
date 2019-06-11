@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="AGWPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
+   <children>
+      <AnchorPane fx:id="PanelHeader" prefHeight="78.0" prefWidth="896.0" style="-fx-background-color: #000000;">
+         <children>
+            <ImageView fitHeight="78.0" fitWidth="899.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../src/gui/icons/header.png" />
+               </image>
+               <effect>
+                  <Glow level="0.37" />
+               </effect>
+            </ImageView>
+         </children></AnchorPane>
+      <AnchorPane fx:id="PanelMenu" layoutY="77.0" prefHeight="527.0" prefWidth="124.0" style="-fx-background-color: #663399;">
+         <children>
+            <VBox layoutY="1.0" prefHeight="502.0" prefWidth="124.0">
+               <children>
+                  <Button fx:id="Alocate" layoutX="10.0" layoutY="99.0" mnemonicParsing="false" onAction="#AlocPanel" onMouseEntered="#AlocMouseEntered" onMouseExited="#AlocMouseExited" onMousePressed="#AlocMousePressed" prefHeight="89.0" prefWidth="140.0" style="-fx-background-color: #663399;">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../src/gui/icons/addAlocar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="AddClient" layoutX="10.0" layoutY="188.0" mnemonicParsing="false" onAction="#AddClientPanel" onMouseEntered="#ClientMouseEntered" onMouseExited="#ClientMouseExited" onMousePressed="#ClientMousePressed" prefHeight="89.0" prefWidth="140.0" style="-fx-background-color: #663399;">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../src/gui/icons/addCliente.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="AddEquip" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#AddEquipPanel" onMouseEntered="#EquipMouseEntered" onMouseExited="#EquipMouseExited" onMousePressed="#EquipMousePressed" prefHeight="89.0" prefWidth="140.0" style="-fx-background-color: #663399;">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="94.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../src/gui/icons/addEquip.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="List" layoutX="10.0" layoutY="188.0" mnemonicParsing="false" onAction="#ListPanel" onMouseEntered="#ListMouseEntered" onMouseExited="#ListMouseExited" onMousePressed="#ListMousePressed" prefHeight="89.0" prefWidth="140.0" style="-fx-background-color: #663399;">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../src/gui/icons/Listar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Hyperlink fx:id="HiperlinkSobre" prefHeight="26.0" prefWidth="54.0" text="Sobre..." textFill="#f5f5f5" underline="true">
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="30.0" right="30.0" top="100.0" />
+                     </VBox.margin>
+                  </Hyperlink>
+               </children>
+               <effect>
+                  <Glow />
+               </effect>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="PanelAddClient" accessibleRole="CHECK_BOX" layoutX="124.0" layoutY="78.0" prefHeight="527.0" prefWidth="773.0">
+         <children>
+            <GridPane layoutX="144.0" layoutY="97.0" prefHeight="259.0" prefWidth="486.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="66.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="420.0" minWidth="10.0" prefWidth="420.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Nome:" />
+                  <TextField fx:id="ClientTextFieldName" prefHeight="26.0" prefWidth="372.0" promptText="Digite o nome do cliente." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;" GridPane.columnIndex="1" />
+                  <Label text="CPF:" GridPane.rowIndex="1" />
+                  <HBox prefHeight="87.0" prefWidth="419.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <TextField fx:id="ClientTextFieldCPF" prefHeight="27.0" prefWidth="105.0" promptText="Digite o CPF." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="Sexo:">
+                           <HBox.margin>
+                              <Insets left="50.0" top="25.0" />
+                           </HBox.margin>
+                        </Label>
+                        <CheckBox fx:id="M" mnemonicParsing="false" onAction="#handleM" text="Masculino">
+                           <HBox.margin>
+                              <Insets left="20.0" top="25.0" />
+                           </HBox.margin>
+                        </CheckBox>
+                        <CheckBox fx:id="F" mnemonicParsing="false" onAction="#handleF" prefHeight="6.0" prefWidth="102.0" text="Feminino">
+                           <HBox.margin>
+                              <Insets left="20.0" top="25.0" />
+                           </HBox.margin>
+                        </CheckBox>
+                     </children>
+                  </HBox>
+                  <Label layoutX="10.0" layoutY="36.0" text="E-mail:" GridPane.rowIndex="2" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <TextField fx:id="ClientTextFieldEmail" prefHeight="27.0" prefWidth="210.0" promptText="Digite o e-mail." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label text="Telefone:">
+                           <HBox.margin>
+                              <Insets left="20.0" top="25.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="ClientTextFieldNumber" prefHeight="27.0" prefWidth="131.0" promptText="Digite o telefone." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets left="10.0" top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <Label text="Endereço:" GridPane.rowIndex="3" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <ChoiceBox fx:id="ClienteChoiceBoxAdress" disable="true" prefHeight="25.0" prefWidth="210.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
+                           <HBox.margin>
+                              <Insets right="70.0" top="20.0" />
+                           </HBox.margin>
+                        </ChoiceBox>
+                        <Button fx:id="ClientNewAdress" mnemonicParsing="false" onAction="#RegisterNewAdress" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: #663399;" text="Novo Endereço" textFill="WHITE">
+                           <HBox.margin>
+                              <Insets top="12.0" />
+                           </HBox.margin>
+                           <effect>
+                              <Glow />
+                           </effect>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <Button fx:id="ClientNewClient" layoutX="500.0" layoutY="441.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #663399;" text="Cadastrar Cliente" textFill="WHITE">
+               <effect>
+                  <Glow />
+               </effect>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="PanelAddEquip" disable="true" layoutX="124.0" layoutY="77.0" prefHeight="527.0" prefWidth="773.0" visible="false">
+         <children>
+            <Button fx:id="NewEquip" layoutX="520.0" layoutY="366.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #663399;" text="Cadastrar Equipamento" textFill="WHITE">
+               <effect>
+                  <Glow />
+               </effect>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <GridPane layoutX="117.0" layoutY="130.0" prefHeight="174.0" prefWidth="540.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox prefHeight="55.0" prefWidth="331.0" GridPane.rowIndex="2">
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="61.0" text="Diária (R$):">
+                           <HBox.margin>
+                              <Insets top="4.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="EquipTextFieldDiaria" prefHeight="27.0" prefWidth="45.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="17.0" prefWidth="76.0" text="Semanal (R$):">
+                           <HBox.margin>
+                              <Insets top="4.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="EquipTextFieldSemanal" prefHeight="27.0" prefWidth="45.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="17.0" prefWidth="80.0" text="Quinzenal (R$):">
+                           <HBox.margin>
+                              <Insets top="4.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="EquipTextFieldQuinzenal" prefHeight="27.0" prefWidth="45.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="17.0" prefWidth="69.0" text="Mensal (R$):">
+                           <HBox.margin>
+                              <Insets top="4.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="EquipTextFieldMensal" prefHeight="27.0" prefWidth="49.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <GridPane prefHeight="89.0" prefWidth="540.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="84.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="420.0" minWidth="10.0" prefWidth="402.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label prefHeight="17.0" prefWidth="76.0" text="Equipamento:" />
+                        <TextField fx:id="EquipTextFieldName" prefHeight="27.0" prefWidth="395.0" promptText="Digite o nome do equipamento." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+                  <Label prefHeight="17.0" prefWidth="76.0" text="Valores:" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <effect>
+                        <Shadow height="0.0" radius="0.0" width="0.0" />
+                     </effect>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="PanelAloc" disable="true" layoutX="124.0" layoutY="78.0" prefHeight="527.0" prefWidth="773.0" visible="false">
+         <children>
+            <GridPane layoutX="144.0" layoutY="97.0" prefHeight="259.0" prefWidth="486.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="74.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="421.0" minWidth="10.0" prefWidth="412.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="ID Cliente:" />
+                  <Label text="Data Inicial:" GridPane.rowIndex="1" />
+                  <HBox prefHeight="87.0" prefWidth="419.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <DatePicker fx:id="AlocTextFieldInitialDate" prefHeight="27.0" prefWidth="157.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                        <Label text="Data Final:">
+                           <HBox.margin>
+                              <Insets left="20.0" right="20.0" top="25.0" />
+                           </HBox.margin>
+                        </Label>
+                        <DatePicker fx:id="AlocTextFieldFinalDate" prefHeight="27.0" prefWidth="157.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                     </children>
+                  </HBox>
+                  <Label layoutX="10.0" layoutY="36.0" text="Valor (R$):" GridPane.rowIndex="2" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <TextField fx:id="AlocTextFieldValue" alignment="CENTER" prefHeight="27.0" prefWidth="94.0" promptText="Insira o valor." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <TextField fx:id="AlocTextFieldID" alignment="CENTER" prefHeight="27.0" prefWidth="64.0" promptText="ID" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets right="80.0" top="20.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Label prefHeight="17.0" prefWidth="56.0" text="Endereço:">
+                           <HBox.margin>
+                              <Insets right="20.0" top="25.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ChoiceBox disable="true" prefHeight="25.0" prefWidth="205.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <HBox.margin>
+                              <Insets top="20.0" />
+                           </HBox.margin>
+                        </ChoiceBox>
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+            <Button fx:id="NewAloc" layoutX="499.0" layoutY="441.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #663399;" text="Alocar" textFill="WHITE">
+               <effect>
+                  <Glow />
+               </effect>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <TabPane fx:id="PanelList" disable="true" layoutX="124.0" layoutY="77.0" prefHeight="527.0" prefWidth="773.0" tabClosingPolicy="UNAVAILABLE" visible="false">
+        <tabs>
+          <Tab style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;" text="Clientes">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="ClientTableView" layoutX="26.0" layoutY="80.0" prefHeight="387.0" prefWidth="719.0" style="-fx-border-color: #8A2BE2;">
+                          <columns>
+                              <TableColumn fx:id="ClientTableViewID" prefWidth="56.0" text="ID" />
+                            <TableColumn fx:id="ClientTableViewName" prefWidth="165.0" text="Nome" />
+                            <TableColumn fx:id="ClientTableViewCPF" minWidth="0.0" prefWidth="101.0" text="CPF" />
+                              <TableColumn fx:id="ClientTableViewSex" minWidth="0.0" prefWidth="50.0" text="Sexo" />
+                              <TableColumn fx:id="ClientTableViewEmail" minWidth="0.0" prefWidth="187.0" text="E-mail" />
+                              <TableColumn fx:id="ClientTableViewTelephone" prefWidth="159.0" text="Telefone" />
+                          </columns>
+                        </TableView>
+                        <HBox layoutX="26.0" layoutY="14.0" prefHeight="48.0" prefWidth="312.0">
+                           <children>
+                              <Label text="ID:">
+                                 <HBox.margin>
+                                    <Insets top="15.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="ClientTextFieldName111" alignment="CENTER" prefHeight="27.0" prefWidth="149.0" promptText="Digite o ID do Cliente." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="40.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button fx:id="ClientNewClient111" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="7.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;" text="Equipamentos">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView layoutX="26.0" layoutY="33.0" prefHeight="434.0" prefWidth="719.0" style="-fx-border-color: #8A2BE2;">
+                                 <columns>
+                                    <TableColumn prefWidth="56.0" text="ID" />
+                                    <TableColumn prefWidth="137.0" text="Nome" />
+                                    <TableColumn minWidth="0.0" prefWidth="90.0" text="CPF" />
+                                    <TableColumn minWidth="0.0" prefWidth="39.0" text="Sexo" />
+                                    <TableColumn minWidth="0.0" prefWidth="184.0" text="E-mail" />
+                                    <TableColumn prefWidth="212.0" text="Endereços" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
+               </content>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="ClientTableView1" layoutX="26.0" layoutY="80.0" prefHeight="387.0" prefWidth="719.0" style="-fx-border-color: #8A2BE2;">
+                           <columns>
+                              <TableColumn fx:id="ClientTableViewID1" prefWidth="56.0" text="ID" />
+                              <TableColumn fx:id="ClientTableViewName1" prefWidth="165.0" text="Nome" />
+                              <TableColumn fx:id="ClientTableViewCPF1" minWidth="0.0" prefWidth="70.0" text="Diária" />
+                              <TableColumn fx:id="ClientTableViewSex1" minWidth="0.0" prefWidth="70.0" text="Semanal" />
+                              <TableColumn fx:id="ClientTableViewEmail1" minWidth="0.0" prefWidth="70.0" text="Quinzenal" />
+                              <TableColumn fx:id="ClientTableViewTelephone1" prefWidth="70.0" text="Mensal" />
+                              <TableColumn fx:id="ClientTableViewTelephone11" prefWidth="214.0" text="Descrição" />
+                           </columns>
+                        </TableView>
+                        <HBox layoutX="26.0" layoutY="14.0" prefHeight="48.0" prefWidth="312.0">
+                           <children>
+                              <Label text="ID:">
+                                 <HBox.margin>
+                                    <Insets top="15.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="ClientTextFieldName112" alignment="CENTER" prefHeight="27.0" prefWidth="149.0" promptText="Digite o ID do Endereço." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="40.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button fx:id="ClientNewClient112" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="7.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;" text="Alocações">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="ClientTableView11" layoutX="26.0" layoutY="80.0" prefHeight="387.0" prefWidth="719.0" style="-fx-border-color: #8A2BE2;">
+                           <columns>
+                              <TableColumn fx:id="ClientTableViewID11" prefWidth="56.0" text="ID" />
+                              <TableColumn fx:id="ClientTableViewName11" prefWidth="165.0" text="Cliente" />
+                              <TableColumn fx:id="ClientTableViewCPF11" minWidth="0.0" prefWidth="165.0" text="Endereço" />
+                              <TableColumn fx:id="ClientTableViewSex11" minWidth="0.0" prefWidth="127.0" text="Data Início" />
+                              <TableColumn fx:id="ClientTableViewEmail11" minWidth="0.0" prefWidth="118.0" text="Data Final" />
+                              <TableColumn fx:id="ClientTableViewTelephone11" prefWidth="85.0" text="Valor" />
+                           </columns>
+                        </TableView>
+                        <HBox layoutX="26.0" layoutY="14.0" prefHeight="48.0" prefWidth="312.0">
+                           <children>
+                              <Label text="ID:">
+                                 <HBox.margin>
+                                    <Insets top="15.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="ClientTextFieldName1121" alignment="CENTER" prefHeight="27.0" prefWidth="149.0" promptText="Digite o ID da Alocação." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="40.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button fx:id="ClientNewClient1121" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="7.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </content></Tab>
+            <Tab style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;" text="Endereços">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="27.0" layoutY="80.0" prefHeight="385.0" prefWidth="719.0" style="-fx-border-color: #8A2BE2;">
+                           <columns>
+                              <TableColumn prefWidth="56.0" text="ID" />
+                              <TableColumn prefWidth="137.0" text="Rua" />
+                              <TableColumn minWidth="0.0" prefWidth="66.0" text="Número" />
+                              <TableColumn minWidth="0.0" prefWidth="87.0" text="CEP" />
+                              <TableColumn prefWidth="135.0" text="Bairro" />
+                              <TableColumn minWidth="0.0" prefWidth="131.0" text="Cidade" />
+                              <TableColumn prefWidth="105.0" text="UF" />
+                           </columns>
+                        </TableView>
+                        <HBox layoutX="27.0" layoutY="14.0" prefHeight="48.0" prefWidth="312.0">
+                           <children>
+                              <Label text="ID:">
+                                 <HBox.margin>
+                                    <Insets top="15.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="ClientTextFieldName1" alignment="CENTER" prefHeight="27.0" prefWidth="149.0" promptText="Digite o ID do Cliente." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="40.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button fx:id="ClientNewClient1" mnemonicParsing="false" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #663399;" text="Buscar" textFill="WHITE">
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="7.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="434.0" layoutY="14.0" prefHeight="48.0" prefWidth="312.0">
+                           <children>
+                              <Label text="ID:">
+                                 <HBox.margin>
+                                    <Insets top="15.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextField fx:id="ClientTextFieldName11" alignment="CENTER" disable="true" prefHeight="27.0" prefWidth="149.0" promptText="Digite o ID do Endereço." style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="40.0" top="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Button fx:id="ClientNewClient11" disable="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets top="7.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
