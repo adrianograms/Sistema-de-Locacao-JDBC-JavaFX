@@ -1,9 +1,11 @@
 package model.entities;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 public class Equipamento implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static DecimalFormat df2 = new DecimalFormat("#.##");
 	
 	private Integer id;
 	private String nome;
@@ -20,10 +22,10 @@ public class Equipamento implements Serializable {
 			String descricao) {
 		this.id = id;
 		this.nome = nome;
-		this.diaria = diaria;
-		this.semanal = semanal;
-		this.quinzenal = quinzenal;
-		this.mensal = mensal;
+		setDiaria(diaria);
+		setSemanal(semanal);
+		setQuinzenal(quinzenal);
+		setMensal(mensal);
 		this.descricao = descricao;
 	}
 

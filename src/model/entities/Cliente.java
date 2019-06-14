@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.ObservableList;
+
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -86,6 +88,12 @@ public class Cliente implements Serializable {
 		if(enderecos == null)
 			enderecos = new ArrayList<Endereco>();
 		enderecos.add(endereco);
+	}
+	
+	public void setEnderecos(ObservableList<Endereco> endereco) {
+		if(enderecos == null)
+			enderecos = new ArrayList<Endereco>();
+		enderecos.addAll(endereco);
 	}
 
 	@Override

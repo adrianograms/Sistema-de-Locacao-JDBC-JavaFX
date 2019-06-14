@@ -1,0 +1,17 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---> Tela de adicionar cliente e adicionar equipamento quase completas (salvo alguns problemas em alguns TextFields, mas não é o fim do mundo)
+
+---> Na tela Listar, ocorre a listagem dos clientes e dos equipamento (função de modificar ainda está para ser feita)
+
+---> Tela Alocar ainda está visualmente incompleta
+
+---> Ainda preciso criar um popup de mensagem quando ocorre uma excessão
+
+---> Estava pensando que a geração de PDF ficaria melhor somente na tela de Listar, onde vc verá as alocações
+
+---> Também tem pensar em uma maneira efetiva de controlar os ID's das classes, só consegui pensar em gambiarra (clientes, equip, etc)
+
+---> Amanhã devo terminar grande parte do que falta ser feito, e talvez organizar melhor o código (creio que até domingo eu já tenha finalizado minha parte)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------

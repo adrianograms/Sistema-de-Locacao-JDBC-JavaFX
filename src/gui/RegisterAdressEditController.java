@@ -16,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.WindowEvent;
 import model.entities.Cliente;
 
-public class RegisterAdressController implements Initializable{
+public class RegisterAdressEditController implements Initializable{
 
 	String RegexCEP = "[0-9]{5}-[0-9]{3}";
 	
@@ -51,10 +51,29 @@ public class RegisterAdressController implements Initializable{
     @FXML
     private Button ClientNewAdress;
 
+    int index = 0;
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 	
+		Endereco adr;		
+		
+		for(int i = 0; i < MainViewController.observableAdressList.size(); i++) {
+			if( MainViewController.observableAdressList.get(i).getNome() == MainViewController.a) {
+				adr = new Endereco(MainViewController.observableAdressList.get(i));
+				AdressTextFieldName.setText(adr.getNome());
+				AdressTextFieldBairro.setText(adr.getBairro());
+				AdressTextFieldCEP.setText(adr.getCep());
+				AdressTextFieldCity.setText(adr.getCidade());
+				AdressTextFieldNumber.setText(adr.getNumero());
+				AdressTextFieldStreet.setText(adr.getRua());
+				AdressTextFieldUF.setText(adr.getEstado());
+				index = i;
+				break;
+			}
+		}
+		
 		//////
 		/// Restricting AdressTextFieldNumber to have only numbers
 		/////
@@ -116,16 +135,19 @@ public class RegisterAdressController implements Initializable{
     		}
     	}
     	
-    	adr = new Endereco(countID, AdressTextFieldCEP.getText(), AdressTextFieldBairro.getText(), AdressTextFieldNumber.getText(),
-    			AdressTextFieldCity.getText(), AdressTextFieldStreet.getText(), AdressTextFieldUF.getText(), AdressTextFieldName.getText());    	
-    	
-    	MainViewController.observableAdressList.add(adr);
+    	MainViewController.observableAdressList.get(index).setNome(AdressTextFieldName.getText());
+    	MainViewController.observableAdressList.get(index).setCidade(AdressTextFieldCity.getText());
+    	MainViewController.observableAdressList.get(index).setNumero(AdressTextFieldNumber.getText());
+    	MainViewController.observableAdressList.get(index).setBairro(AdressTextFieldBairro.getText());
+    	MainViewController.observableAdressList.get(index).setCep(AdressTextFieldCEP.getText());
+    	MainViewController.observableAdressList.get(index).setRua(AdressTextFieldStreet.getText());
+    	MainViewController.observableAdressList.get(index).setEstado(AdressTextFieldUF.getText());    	
 		
 		countID++;
   		
 		System.out.println("Cadastrando...");
 		
-		MainViewController.observableNameAdressList.add(adr.getNome());
+		MainViewController.observableNameAdressList.set(index, MainViewController.observableAdressList.get(index).getNome());
 		
 		MainViewController.stage.fireEvent(
 			    new WindowEvent(MainViewController.stage, WindowEvent.WINDOW_CLOSE_REQUEST));

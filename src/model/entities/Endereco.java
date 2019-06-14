@@ -2,6 +2,8 @@ package model.entities;
 
 import java.io.Serializable;
 
+import gui.MainViewController;
+
 public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -12,18 +14,32 @@ public class Endereco implements Serializable {
 	private String rua;
 	private String cidade;
 	private String estado;
+	private String nome;
 	
 	public Endereco() {
 	}
+	
+	public Endereco(Endereco adr) {
+		this.nome = adr.getNome();		
+		this.id = adr.getId();
+		this.cep = adr.getCep();
+		this.bairro = adr.getBairro();
+		this.numero = adr.getNumero();
+		this.rua = adr.getRua();
+		this.cidade = adr.getCidade();
+		this.estado = adr.getEstado();
+	}
 
-	public Endereco(Integer id, String cep, String bairro, String numero, String rua, String cidade, String estado) {
+	public Endereco(Integer id, String cep, String bairro, String numero, String rua, String cidade, String estado, String nome) {
+		
+		this.nome = nome;		
 		this.id = id;
 		this.cep = cep;
 		this.bairro = bairro;
 		this.numero = numero;
 		this.rua = rua;
 		this.cidade = cidade;
-		this.estado = estado;
+		this.estado = estado;		
 	}
 
 	public Integer getId() {
@@ -111,6 +127,14 @@ public class Endereco implements Serializable {
 	public String toString() {
 		return "Endereco [id=" + id + ", cep=" + cep + ", bairro=" + bairro + ", numero=" + numero + ", rua=" + rua
 				+ ", cidade=" + cidade + ", estado=" + estado + "]";
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {	
+		this.nome = nome;		
 	}
 	
 	
