@@ -320,7 +320,7 @@
                               <Insets left="82.0" right="7.0" top="4.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="EquipTextFieldMensal" alignment="CENTER_RIGHT" nodeOrientation="RIGHT_TO_LEFT" prefHeight="27.0" prefWidth="100.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                        <TextField fx:id="EquipTextFieldMensal" alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="100.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -333,7 +333,7 @@
       </AnchorPane>
       <AnchorPane fx:id="PanelAloc" disable="true" layoutX="124.0" layoutY="78.0" prefHeight="527.0" prefWidth="773.0" visible="false">
          <children>
-            <GridPane layoutX="144.0" layoutY="97.0" prefHeight="259.0" prefWidth="486.0">
+            <GridPane layoutX="127.0" layoutY="96.0" prefHeight="259.0" prefWidth="519.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="74.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="421.0" minWidth="10.0" prefWidth="412.0" />
@@ -349,41 +349,71 @@
                   <Label text="Data Inicial:" GridPane.rowIndex="1" />
                   <HBox prefHeight="87.0" prefWidth="419.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <DatePicker fx:id="AlocTextFieldInitialDate" prefHeight="27.0" prefWidth="157.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
+                        <DatePicker fx:id="AlocTextFieldInitialDate" prefHeight="27.0" prefWidth="162.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
                            <HBox.margin>
                               <Insets top="20.0" />
                            </HBox.margin>
                         </DatePicker>
                         <Label text="Data Final:">
                            <HBox.margin>
-                              <Insets left="20.0" right="20.0" top="25.0" />
+                              <Insets left="20.0" right="20.0" top="23.0" />
                            </HBox.margin>
                         </Label>
-                        <DatePicker fx:id="AlocTextFieldFinalDate" prefHeight="27.0" prefWidth="157.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
+                        <DatePicker fx:id="AlocTextFieldFinalDate" prefHeight="27.0" prefWidth="164.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
                            <HBox.margin>
                               <Insets top="20.0" />
                            </HBox.margin>
                         </DatePicker>
                      </children>
                   </HBox>
-                  <Label layoutX="10.0" layoutY="36.0" text="Valor (R$):" GridPane.rowIndex="2" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <TextField fx:id="AlocTextFieldValue" alignment="CENTER" disable="true" prefHeight="27.0" prefWidth="94.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                        <ChoiceBox fx:id="AlocChoiceBoxEquip" disable="true" prefHeight="25.0" prefWidth="205.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                            <HBox.margin>
                               <Insets top="20.0" />
                            </HBox.margin>
-                        </TextField>
+                        </ChoiceBox>
+                        <Button fx:id="AlocAddEquip" mnemonicParsing="false" onAction="#AddEquipAloc" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #663399;" text="Adicionar" textFill="WHITE">
+                           <effect>
+                              <Glow />
+                           </effect>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets left="20.0" top="17.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <TextField fx:id="AlocTextFieldID" alignment="CENTER" prefHeight="27.0" prefWidth="64.0" promptText="ID" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
+                        <TextField fx:id="AlocTextFieldID" alignment="CENTER" prefHeight="27.0" prefWidth="53.0" promptText="ID" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
                            <HBox.margin>
-                              <Insets right="80.0" top="20.0" />
+                              <Insets right="15.0" top="20.0" />
                            </HBox.margin>
                         </TextField>
+                        <Button fx:id="AlocSearchID" mnemonicParsing="false" onAction="#searchID" prefHeight="16.0" prefWidth="64.0" style="-fx-background-color: #663399;" text="Buscar" textFill="WHITE">
+                           <effect>
+                              <Glow />
+                           </effect>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets right="20.0" top="18.0" />
+                           </HBox.margin>
+                        </Button>
                         <Label prefHeight="17.0" prefWidth="56.0" text="Endereço:">
                            <HBox.margin>
                               <Insets right="20.0" top="25.0" />
@@ -399,9 +429,10 @@
                         </ChoiceBox>
                      </children>
                   </HBox>
+                  <Label prefHeight="17.0" prefWidth="82.0" text="Equipamentos:" GridPane.rowIndex="2" />
                </children>
             </GridPane>
-            <Button fx:id="AlocNewAloc" layoutX="499.0" layoutY="441.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #663399;" text="Alocar" textFill="WHITE">
+            <Button fx:id="AlocNewAloc" layoutX="534.0" layoutY="442.0" mnemonicParsing="false" onAction="#cadAloc" prefHeight="48.0" prefWidth="172.0" style="-fx-background-color: #663399;" text="Alocar" textFill="WHITE">
                <effect>
                   <Glow />
                </effect>
@@ -412,26 +443,43 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <HBox layoutX="131.0" layoutY="446.0" prefHeight="39.0" prefWidth="256.0" style="-fx-border-color: #8A2BE2; -fx-border-image-width: 2px; -fx-border-style: dotted; -fx-background-color: #ffe6ff;">
+            <HBox layoutX="71.0" layoutY="448.0" prefHeight="39.0" prefWidth="256.0" style="-fx-border-color: #8A2BE2; -fx-border-image-width: 1px; -fx-background-color: #663399;">
                <children>
-                  <Label prefHeight="20.0" prefWidth="76.0" text="Valor Total:">
+                  <Label prefHeight="20.0" prefWidth="76.0" text="Valor Total:" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="13.0" />
                      </font>
                      <HBox.margin>
                         <Insets left="8.0" right="20.0" top="8.0" />
                      </HBox.margin>
+                     <effect>
+                        <Glow />
+                     </effect>
                   </Label>
-                  <Label fx:id="EquipLabelValue" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="146.0">
+                  <Label fx:id="EquipLabelValue" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="146.0" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                      <HBox.margin>
                         <Insets left="3.0" right="5.0" top="3.0" />
                      </HBox.margin>
+                     <effect>
+                        <Glow />
+                     </effect>
                   </Label>
                </children>
             </HBox>
+            <Button fx:id="AlocCalcValue" layoutX="345.0" layoutY="453.0" mnemonicParsing="false" onAction="#changeValueLabel" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #663399;" text="Calcular" textFill="WHITE">
+               <effect>
+                  <Glow />
+               </effect>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </AnchorPane>
       <TabPane fx:id="PanelList" disable="true" layoutX="124.0" layoutY="77.0" prefHeight="527.0" prefWidth="773.0" tabClosingPolicy="UNAVAILABLE" visible="false">
@@ -554,12 +602,12 @@
                      <children>
                         <TableView fx:id="AlocTableView" layoutX="26.0" layoutY="80.0" prefHeight="387.0" prefWidth="719.0" style="-fx-border-color: #8A2BE2;">
                            <columns>
-                              <TableColumn fx:id="ClientTableViewID11" prefWidth="56.0" text="ID" />
-                              <TableColumn fx:id="ClientTableViewName11" prefWidth="165.0" text="Cliente" />
-                              <TableColumn fx:id="ClientTableViewCPF11" minWidth="0.0" prefWidth="165.0" text="Endereço" />
-                              <TableColumn fx:id="ClientTableViewSex11" minWidth="0.0" prefWidth="127.0" text="Data Início" />
-                              <TableColumn fx:id="ClientTableViewEmail11" minWidth="0.0" prefWidth="118.0" text="Data Final" />
-                              <TableColumn fx:id="ClientTableViewTelephone11" prefWidth="85.0" text="Valor" />
+                              <TableColumn fx:id="AlocTableViewID" prefWidth="56.0" text="ID" />
+                              <TableColumn fx:id="AlocTableViewClient" prefWidth="165.0" text="Cliente" />
+                              <TableColumn fx:id="AlocTableViewAdress" minWidth="0.0" prefWidth="165.0" text="Endereço" />
+                              <TableColumn fx:id="AlocTableViewDI" minWidth="0.0" prefWidth="127.0" text="Data Início" />
+                              <TableColumn fx:id="AlocTableViewDF" minWidth="0.0" prefWidth="118.0" text="Data Final" />
+                              <TableColumn fx:id="AlocTableViewValue" prefWidth="85.0" text="Valor" />
                            </columns>
                         </TableView>
                         <HBox layoutX="26.0" layoutY="14.0" prefHeight="48.0" prefWidth="312.0">
