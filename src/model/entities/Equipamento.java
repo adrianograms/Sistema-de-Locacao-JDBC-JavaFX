@@ -13,6 +13,7 @@ public class Equipamento implements Serializable {
 	private Double quinzenal;
 	private Double mensal;
 	private String descricao;
+	private boolean status = false;
 	
 	public Equipamento() {
 	}
@@ -127,6 +128,14 @@ public class Equipamento implements Serializable {
 	public String toString() {
 		return "Equipamento [id=" + id + ", nome=" + nome + ", diaria=" + diaria + ", Semanal=" + semanal
 				+ ", Quinzenal=" + quinzenal + ", mensal=" + mensal + ", descricao=" + descricao + "]";
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 	
 	

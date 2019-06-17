@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -24,6 +25,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
@@ -43,28 +45,50 @@ import model.entities.*;
 
 public class MainViewController implements Initializable {
 
-	/// Variáveis dispensáveis
-
-	int countID = 0;
-	int AlocIndex = 0;
-
-    ObservableList<Cliente> observableList = FXCollections.observableArrayList();
+	// ID`s counters
 	
+	int countID = 0;
+	int countEquipID = 0;	
+	int countAlocID = 0;
+	public static int countAdressID = 0; // kinda useless
+	
+	// Auxiliar to see if an client is found and to keep the index of it
+	int AlocIndex = 0;
+	
+	// Used to modify all the data in the ListPanel
+	int GLOBALIDMODIFY = 0;
+
+	//////////////////////////////////////////////////////////
+	///     OBSERVABLE LISTS WITH >>> ALL <<< THE DATA     ///
+	//////////////////////////////////////////////////////////
+	//
+	// Keeps all the Clients
+    ObservableList<Cliente> observableList = FXCollections.observableArrayList();
+	//
+    // Keeps all the Adresses >>TEMPORARILY<<
+    // observableName is used to tag the ChoiceBoxes for better visualization
 	public static ObservableList<Endereco> observableAdressList = FXCollections.observableArrayList();
 	public static ObservableList<String> observableNameAdressList = FXCollections.observableArrayList();
-	
+	//
+	// observableEquipList keeps all the Equips
+	// observableName is used to tag the ChoiceBoxes for better visualization
+	// auxNameList is TEMPORARILY and its used in the AlocPanel to control the equips that are Added (Alocado ou não)
+	// obsEquipAlocList is TEMPORARILY and its used to keep the equips that are added in the AlocPanel to then add to its Locacao
 	public static ObservableList<Equipamento> observableEquipList = FXCollections.observableArrayList();
 	public static ObservableList<String> observableNameEquipList = FXCollections.observableArrayList();
 	public static ObservableList<String> auxNameList = FXCollections.observableArrayList();
 	public static ObservableList<Equipamento> obsEquipAlocList = FXCollections.observableArrayList();
-	
-	public static ObservableList<Locacao> observableAlocList = FXCollections.observableArrayList();
-	ObservableList<Endereco> aux = FXCollections.observableArrayList();
+	//
+	// observableAlocList keeps all the Locacoes
+	public static ObservableList<Locacao> observableAlocList = FXCollections.observableArrayList();	
+	//////////////////////////////////////////////////////////
+	///                                                    ///
+	//////////////////////////////////////////////////////////
 	
 	/// Auxiliar in editing an Adress in ClientPanel
-	public static String a = " "; 
+	public static String auxAdressName = "";
 	
-	///
+	/// Regular Expressions to check the data
 	
 	String RegexCPF = "[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}";
 	String RegexEMAIL = "[a-zA-Z0-9]*@(gmail.com|hotmail.com|outlook.com|unioeste.br|yahoo.com.br)";
@@ -73,6 +97,15 @@ public class MainViewController implements Initializable {
 	String RegexDate = "[0-9]{2}/[0-9]{2}/[0-9]{4}";
 	
 	public static Stage stage = new Stage();
+	
+	@FXML
+	private Button ListClientButtonDelete;
+	
+	@FXML
+	private Button AlocRemoveEquip;
+	
+	@FXML
+	private AnchorPane PanelSobre;
 	
     @FXML
     private AnchorPane PanelHeader;
@@ -109,7 +142,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     private Button List;
-
+    
     @FXML
     private Button AlocCalcValue;
     
@@ -258,27 +291,6 @@ public class MainViewController implements Initializable {
     private TableView<Locacao> AlocTableView;
     
     @FXML
-    private TableColumn<Endereco, Integer> AdressTableViewID;
-
-    @FXML
-    private TableColumn<Endereco, String> AdressTableViewStreet;
-
-    @FXML
-    private TableColumn<Endereco, String> AdressTableViewCity;
-
-    @FXML
-    private TableColumn<Endereco, String> AdressTableViewUF;
-
-    @FXML
-    private TableColumn<Endereco, String> AdressTableViewNumber;
-    
-    @FXML
-    private TableColumn<Endereco, String> AdressTableViewCEP;
-    
-    @FXML
-    private TableColumn<Endereco, String> AdressTableViewBairro;
-    
-    @FXML
     private TableColumn<Equipamento, String> EquipTableViewName;
 
     @FXML
@@ -317,11 +329,6 @@ public class MainViewController implements Initializable {
     @FXML
     private TableColumn<Locacao, Double> AlocTableViewValue;
     
-    @FXML
-    private TableView<Endereco> AdressTableView;
-
-
-    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
@@ -333,7 +340,7 @@ public class MainViewController implements Initializable {
 		ClientTableViewEmail.setCellValueFactory(new PropertyValueFactory<Cliente, String>("email"));
 		ClientTableViewSex.setCellValueFactory(new PropertyValueFactory<Cliente, Character>("sexo"));
 		ClientTableViewTelephone.setCellValueFactory(new PropertyValueFactory<Cliente, String>("telefone"));
-		
+				
 		/// Setting EquipTableView
 		EquipTableViewDescription.setCellValueFactory(new PropertyValueFactory<Equipamento, String>("descricao"));
 		EquipTableViewDiaria.setCellValueFactory(new PropertyValueFactory<Equipamento, Double>("diaria"));
@@ -351,15 +358,6 @@ public class MainViewController implements Initializable {
 		AlocTableViewDI.setCellValueFactory(new PropertyValueFactory<Locacao, String>("data_inicio"));
 		AlocTableViewDF.setCellValueFactory(new PropertyValueFactory<Locacao, String>("data_final"));
 				
-		/// Settin AdressTableView
-		AdressTableViewID.setCellValueFactory(new PropertyValueFactory<Endereco, Integer>("id"));
-		AdressTableViewBairro.setCellValueFactory(new PropertyValueFactory<Endereco, String>("bairro"));
-		AdressTableViewCEP.setCellValueFactory(new PropertyValueFactory<Endereco, String>("cep"));
-		AdressTableViewCity.setCellValueFactory(new PropertyValueFactory<Endereco, String>("cidade"));
-		AdressTableViewNumber.setCellValueFactory(new PropertyValueFactory<Endereco, String>("numero"));
-		AdressTableViewStreet.setCellValueFactory(new PropertyValueFactory<Endereco, String>("rua"));
-		AdressTableViewUF.setCellValueFactory(new PropertyValueFactory<Endereco, String>("estado"));
-		
 		//////
 		/// Restricting ClientTextFieldName to have only Letters
 		/////
@@ -477,7 +475,7 @@ public class MainViewController implements Initializable {
 	}
 	
 	////
-    // Changing the buttons color
+    // Changing the buttons color (Quando o mouse passar por eles e quando se muda a Tela)
     ////
     
     @FXML
@@ -557,7 +555,7 @@ public class MainViewController implements Initializable {
     }
 	
     ////
-	// Handling CheckBox inside AddClientPanel
+	// Handling CheckBox inside AddClientPanel (Masculino e Feminino ñ podem estar selecionados ao mesmo tempo)
     ////
 	
 	@FXML
@@ -582,6 +580,7 @@ public class MainViewController implements Initializable {
     void AddClientPanel(ActionEvent event) {    	
     	
     	/// Clears the screen every time it enters
+    	ClientNewClient.setText("Cadastrar Cliente");
     	observableAdressList.clear();   	
     	observableNameAdressList.clear();
     	M.setSelected(false);
@@ -591,6 +590,7 @@ public class MainViewController implements Initializable {
 		ClientTextFieldName.setText("");
 		ClientTextFieldName.setText("");
 		ClientTextFieldNumber.setText("");
+		countAdressID = 0; // kinda useless aswell
     	
 		/// Disable/Enable panels
     	PanelAddClient.setVisible(true);
@@ -601,6 +601,8 @@ public class MainViewController implements Initializable {
     	PanelAloc.setDisable(true);
     	PanelList.setVisible(false);
     	PanelList.setDisable(true);
+    	PanelSobre.setVisible(false);
+    	PanelSobre.setDisable(true);
     	
     	System.out.println("Client Panel");
     	
@@ -610,6 +612,7 @@ public class MainViewController implements Initializable {
     void AddEquipPanel(ActionEvent event) {
     	    	
     	/// Clears the screen every time it enters
+    	EquipNewEquip.setText("Cadastrar Equipamento");
     	EquipTextFieldName.setText("");
     	EquipTextFieldDescription.setText("");
     	EquipTextFieldDiaria.setText("");
@@ -626,6 +629,8 @@ public class MainViewController implements Initializable {
     	PanelAloc.setDisable(true);
     	PanelList.setVisible(false);
     	PanelList.setDisable(true);
+    	PanelSobre.setVisible(false);
+    	PanelSobre.setDisable(true);
     	
     	System.out.println("Equip Panel");
     }
@@ -633,14 +638,15 @@ public class MainViewController implements Initializable {
     @FXML
     void AlocPanel(ActionEvent event) {
     	    
-    	// Clear the List used to adding Equipamentos to the Locacao
+    	// Clears the auxiliar List used to adding Equipamentos to the Locacao
     	obsEquipAlocList.clear();
     	
     	// Tag to control if it has been found the ClienteID
     	AlocIndex = -1;
     	
-    	EquipLabelValue.setText("");
+    	EquipLabelValue.setText(""); // Label that contains que value when calculated
     	
+    	// Clears the Panel    	
     	AlocChoiceBoxAdress.setDisable(true);
     	AlocChoiceBoxAdress.setItems(FXCollections.observableArrayList());
     	auxNameList.clear();
@@ -648,9 +654,12 @@ public class MainViewController implements Initializable {
     		auxNameList.addAll(observableNameEquipList);
     		AlocChoiceBoxEquip.setItems(auxNameList);
     		AlocChoiceBoxEquip.setDisable(false);
-    	} else AlocChoiceBoxEquip.setDisable(true);
-    	
+    	} else AlocChoiceBoxEquip.setDisable(true);    	
     	AlocTextFieldID.setText("");    	
+    	
+    	// dates
+    	AlocTextFieldInitialDate.setValue(null);
+    	AlocTextFieldFinalDate.setValue(null);
     	
     	/// Disable/Enable panels
     	PanelAddClient.setVisible(false);
@@ -661,6 +670,8 @@ public class MainViewController implements Initializable {
     	PanelAloc.setDisable(false);
     	PanelList.setVisible(false);
     	PanelList.setDisable(true);
+    	PanelSobre.setVisible(false);
+    	PanelSobre.setDisable(true);
     	
     	System.out.println("Aloc Panel");
 
@@ -669,10 +680,18 @@ public class MainViewController implements Initializable {
     @FXML
     void ListPanel(ActionEvent event) {
     	
+    	// Clears the Panel  
+    	ListEquipTextFieldID.setText("");
+    	ListEquipTextFieldID.setText("");
+    	ListAlocTextFieldID.setText("");
+    	ListAlocTextFieldIDPDF.setText("");
+    	observableAdressList.clear();
+    	observableNameAdressList.clear();
+    	
+    	// Sets the observable lists that contains ALL the data to the tableviews that will show that data
     	ClientTableView.setItems(observableList);
     	EquipTableView.setItems(observableEquipList);
     	AlocTableView.setItems(observableAlocList);
-    	AdressTableView.setItems(observableAdressList);
     	
     	/// Disable/Enable panels
     	PanelAddClient.setVisible(false);
@@ -683,9 +702,38 @@ public class MainViewController implements Initializable {
     	PanelAloc.setDisable(true);
     	PanelList.setVisible(true);
     	PanelList.setDisable(false);
+    	PanelSobre.setVisible(false);
+    	PanelSobre.setDisable(true);
     	
     	System.out.println("List Panel");
     }    
+    
+    /////
+    // Sobre
+    /////
+    
+    @FXML
+    void sobrePanel(ActionEvent event) {
+    	
+    	/// Disable/Enable panels
+    	PanelAddClient.setVisible(false);
+    	PanelAddClient.setDisable(true);
+    	PanelAddEquip.setVisible(false);
+    	PanelAddEquip.setDisable(true);
+    	PanelAloc.setVisible(false);
+    	PanelAloc.setDisable(true);
+    	PanelList.setVisible(false);
+    	PanelList.setDisable(true);
+    	PanelSobre.setVisible(true);
+    	PanelSobre.setDisable(false);
+    	
+    	/// Button colors
+    	Alocate.setStyle("-fx-background-color: #663399");
+    	AddClient.setStyle("-fx-background-color: #663399");
+    	AddEquip.setStyle("-fx-background-color: #663399");
+    	List.setStyle("-fx-background-color: #663399");
+    	
+    }
     
     ////
     // Window popup in AddClientPanel to Register Adress
@@ -726,6 +774,7 @@ public class MainViewController implements Initializable {
     	Cliente cli;
     	Character Sex = ' ';
     	
+    	// Pops an alert every time a exception is throwed
     	Alert alert = new Alert(AlertType.ERROR);
     	alert.setTitle("Error Dialog");
     	alert.setHeaderText("DADOS INVÁLIDOS");
@@ -769,30 +818,49 @@ public class MainViewController implements Initializable {
     		throw new Exception("DADOS INVÁLIDOS");
     	}
     	
-    	
-//    	// Checking the data
-//    	if(!ClientTextFieldEmail.getText().matches(RegexEMAIL) || !ClientTextFieldCPF.getText().matches(RegexCPF)
-//    			|| !ClientTextFieldNumber.getText().matches(RegexTELEPHONE) || ( !M.isSelected() && !F.isSelected() ) 
-//    			|| ClientTextFieldName.getText().isEmpty() || observableAdressList.isEmpty()) {     		
-//    		throw new Exception("DADOS INVÁLIDOS");
-//    	}
-    	
     	if(M.isSelected()) Sex = 'M';
     	else if(F.isSelected()) Sex = 'F';
     	
-    	/// Registering Cliente    	
-    	cli = new Cliente(countID, ClientTextFieldName.getText(), Sex, ClientTextFieldEmail.getText(), 
-				ClientTextFieldCPF.getText(), ClientTextFieldNumber.getText());
-		
-    	/// Adding the adresses to the Cliente
-    	cli.setEnderecos(observableAdressList);
+    	/// Registering Cliente 
+    	// if -> in the case that its adding a new cliente
+    	// else -> in the case that its modifying a cliente
     	
-    	/// Updating the ObservableList that will appear in the ListPanel
-    	observableList.add(cli);
-		
-		countID++;
-  		
-		System.out.println("Cliente Cadastrado.");
+    	if(ClientNewClient.getText().equals("Cadastrar Cliente")) {    	
+    		cli = new Cliente(countID, ClientTextFieldName.getText(), Sex, ClientTextFieldEmail.getText(), 
+				ClientTextFieldCPF.getText(), ClientTextFieldNumber.getText());
+    		
+    		/// Adding the adresses to the Cliente
+        	cli.setEnderecos(observableAdressList);
+        	
+        	/// Updating the ObservableList that will appear in the ListPanel
+        	observableList.add(cli);
+    		
+    		countID++;
+      		
+    		System.out.println("Cliente Cadastrado.");
+    		
+    	} else {
+    		
+    		cli = observableList.get(GLOBALIDMODIFY);
+    		cli.setCpf(ClientTextFieldCPF.getText());
+    		cli.setEmail(ClientTextFieldEmail.getText());
+    		cli.getEnderecos().clear();
+    		cli.setEnderecos(observableAdressList);
+    		cli.setNome(ClientTextFieldName.getText());
+    		cli.setSexo(Sex);
+    		cli.setTelefone(ClientTextFieldNumber.getText());
+    		
+    		// Updates the ObservableList that contains the ID
+    		for(int i = 0 ; i < observableList.size() ; i++) {
+        		if(cli.getId() == observableList.get(i).getId()) {
+        			observableList.set(i, cli);
+        			break;
+        		}
+    		}    		
+    		
+    		System.out.println("Cliente Modificado.");
+    		
+    	}
 		
 		///Clears the data in the screen
 		ClientTextFieldCPF.setText("");
@@ -805,6 +873,8 @@ public class MainViewController implements Initializable {
     	M.setSelected(false);
     	F.setSelected(false);
     	ClienteChoiceBoxAdress.setDisable(true);
+    	ClientNewClient.setText("Cadastrar Cliente");
+    	countAdressID = 0;
     }
     
     ////
@@ -819,9 +889,9 @@ public class MainViewController implements Initializable {
     		return;
     	
     	// a is an Auxiliar to fill the data that will be changed in the new window
-    	a = ClienteChoiceBoxAdress.getValue();
+    	auxAdressName = ClienteChoiceBoxAdress.getValue();
     	    	
-    	/// Opening the window
+    	/// Opening the window with the data of the selected adress
     	Parent root = FXMLLoader.load(getClass().getResource("/gui/RegisterAdressEdit.fxml"));
 		
 		Scene scene = new Scene(root);
@@ -877,13 +947,7 @@ public class MainViewController implements Initializable {
     		alert.showAndWait();
     		throw new Exception("DADOS INVÁLIDOS");
     	}
-    	
-//    	/// Checking the data
-//    	if(!diaria.matches(RegexRealNumber) || !mensal.matches(RegexRealNumber) 
-//    			|| !quinzenal.matches(RegexRealNumber) || !semanal.matches(RegexRealNumber)
-//    			|| EquipTextFieldName.getText().isEmpty() || EquipTextFieldDescription.getText().isEmpty())
-//    		throw new Exception("DADOS INVÁLIDOS");    	
-    	
+    	    	
     	// Setting the format of the string stored in the TextFields that should contain a double value
     	String diaria = String.format("%.2f", Double.parseDouble(EquipTextFieldDiaria.getText()));
     	String semanal = String.format("%.2f", Double.parseDouble(EquipTextFieldSemanal.getText()));
@@ -895,14 +959,41 @@ public class MainViewController implements Initializable {
     	mensal = mensal.replace(',', '.');
     	
     	/// Registering the Equipamento
-    	equip = new Equipamento(countID, EquipTextFieldName.getText(), Double.parseDouble(diaria), 
+    	// if -> in the case that its adding a new Equipamento
+    	// else -> in the case that its modifying a Equipamento
+    	if(EquipNewEquip.getText().equals("Cadastrar Equipamento")) {
+    		equip = new Equipamento(countEquipID, EquipTextFieldName.getText(), Double.parseDouble(diaria), 
     			Double.parseDouble(semanal), Double.parseDouble(quinzenal), 
     			Double.parseDouble(mensal), EquipTextFieldDescription.getText());
     	
-    	/// Adding it to the ObservableList used in ListPanel
-    	observableEquipList.add(equip);
-    	/// This ObservableList is used to fill the ChoiceBoxes with only the name of the Equipamento
-    	observableNameEquipList.add(EquipTextFieldName.getText());
+    		countEquipID++;
+    		
+    		/// Adding it to the ObservableList used in ListPanel
+    		observableEquipList.add(equip);
+    		/// This ObservableList is used to fill the ChoiceBoxes with only the name of the Equipamento
+    		observableNameEquipList.add(EquipTextFieldName.getText());
+    	} else {
+    		equip = observableEquipList.get(GLOBALIDMODIFY);
+    		
+    		equip.setDescricao(EquipTextFieldDescription.getText());
+    		equip.setNome(EquipTextFieldName.getText());
+    		equip.setDiaria(Double.parseDouble(diaria));
+    		equip.setSemanal(Double.parseDouble(semanal));
+    		equip.setQuinzenal(Double.parseDouble(quinzenal));
+    		equip.setMensal(Double.parseDouble(mensal));
+    		EquipNewEquip.setText("Cadastrar Equipamento");
+    		
+    		// Updates the ObservableList that contains the ID
+    		for(int i = 0 ; i < observableEquipList.size() ; i++) {
+        		if(equip.getId() == observableEquipList.get(i).getId()) {
+        			observableEquipList.set(i, equip);
+        			break;
+        		}
+    		}    		
+    		
+    		System.out.println("Equipamento Modificado.");
+    	}
+    	
     	
     	/// Clears the screen
     	EquipTextFieldName.setText("");
@@ -920,9 +1011,7 @@ public class MainViewController implements Initializable {
     void cadAloc(ActionEvent event) throws Exception {
     	
     	Locacao aloc;
-    	
-    	//////// --------> NAO CONSIGO LIMPAR O TEXTFIELD DAS DATAS QUANDO SE SAI E ENTRA NA TELA
-    	
+    	    	
     	/// Checking the data
     	Alert alert = new Alert(AlertType.ERROR);
     	alert.setTitle("Error Dialog");
@@ -946,45 +1035,106 @@ public class MainViewController implements Initializable {
     		throw new Exception("DADOS INVÁLIDOS");
     	}
     	
-    	if((AlocChoiceBoxAdress.getValue() == null && observableEquipList.isEmpty())){
+    	if((observableEquipList.isEmpty())){
     		alert.setContentText("É preciso cadastrar e selecionar ao menos um equipamento.");
     		alert.showAndWait();
     		throw new Exception("DADOS INVÁLIDOS");
     	}
     	
-    	if(AlocChoiceBoxAdress.getValue() == null || obsEquipAlocList.isEmpty()){
+    	if(obsEquipAlocList.isEmpty()){
     		alert.setContentText("É preciso adicionar ao menos um equipamento.");
     		alert.showAndWait();
     		throw new Exception("DADOS INVÁLIDOS");
     	}
-    	   		
-    	/// Registering the adress
-    	Endereco adr = searchAdress(observableList.get(AlocIndex), AlocChoiceBoxAdress.getValue());    	// Returns the adress based on it's name
-    	aloc = new Locacao(countID, AlocTextFieldInitialDate.getValue(), AlocTextFieldFinalDate.getValue(), 
-    			adr, observableList.get(AlocIndex));
-       		
     	
-    	aloc.setEquipamentos(obsEquipAlocList);
+    	if(AlocChoiceBoxAdress.getValue() == null){
+    		alert.setContentText("É preciso adicionar ao menos um endereço.");
+    		alert.showAndWait();
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
     	
-    	aloc.setValor(calcValue(aloc.getData_inicio(), aloc.getData_final(), aloc));
     	
-    	AlocTextFieldID.setText("");
+    	/// Registering the Locacao
+    	// if -> in the case that its adding a new Locacao
+    	// else -> in the case that its modifying a Locacao
+    	if(AlocNewAloc.getText().equals("Alocar")) {
+    		
+    		/// Registering the adress
+        	Endereco adr = searchAdress(observableList.get(AlocIndex), AlocChoiceBoxAdress.getValue());    	// Returns the adress based on its name
+        	aloc = new Locacao(countAlocID, AlocTextFieldInitialDate.getValue(), AlocTextFieldFinalDate.getValue(), 
+        			adr, observableList.get(AlocIndex));     
+        	
+        	aloc.setEquipamentos(obsEquipAlocList);
+        	
+        	aloc.setValor(calcValue(aloc.getData_inicio(), aloc.getData_final(), aloc));
+        	
+        	AlocTextFieldID.setText("");
+        	
+        	countAlocID++;
+        	
+        	observableAlocList.add(aloc);
     	
-    	observableAlocList.add(aloc);
+    	} else {
+    		
+    		aloc = observableAlocList.get(GLOBALIDMODIFY);
+    		
+    		aloc.setCliente(observableList.get(AlocIndex));
+    		aloc.setData_final(AlocTextFieldFinalDate.getValue());
+    		aloc.setData_inicio(AlocTextFieldInitialDate.getValue());
+    		aloc.setEndereco(searchAdress(observableList.get(AlocIndex), AlocChoiceBoxAdress.getValue()));
+    		aloc.getEquipamentos().clear();
+    		aloc.setEquipamentos(obsEquipAlocList);
+    		aloc.setNomeCliente(observableList.get(AlocIndex).getNome());
+    		aloc.setNomeEndereco(aloc.getEndereco().getNome());
+    		aloc.setValor(calcValue(aloc.getData_inicio(), aloc.getData_final(), aloc));
+    		
+    		AlocTextFieldID.setText("");
+    		
+    		// Updates the ObservableList that contains the ID
+    		for(int i = 0 ; i < observableAlocList.size() ; i++) {
+        		if(aloc.getId() == observableAlocList.get(i).getId()) {
+        			observableAlocList.set(i, aloc);
+        			System.out.println("entrou!");
+        			break;
+        		}
+    		}    		
+    		
+    		
+    		System.out.println("Alocação Modificado.");
+    		
+    	}   	
     	
+    	// Clears the auxiliar List used to adding Equipamentos to the Locacao
     	obsEquipAlocList.clear();
     	
+    	// Tag to control if it has been found the ClienteID
+    	AlocIndex = -1;
+    	
+    	EquipLabelValue.setText(""); // Label that contains que value when calculated
+    	
+    	// Clears the Panel    	
+    	AlocChoiceBoxAdress.setDisable(true);
+    	AlocChoiceBoxAdress.setItems(FXCollections.observableArrayList());
+    	auxNameList.clear();
+    	if(!observableNameEquipList.isEmpty()) {
+    		auxNameList.addAll(observableNameEquipList);
+    		AlocChoiceBoxEquip.setItems(auxNameList);
+    		AlocChoiceBoxEquip.setDisable(false);
+    	} else AlocChoiceBoxEquip.setDisable(true);    	
+    	AlocTextFieldID.setText("");   
+    	
+    	// dates
+    	AlocTextFieldInitialDate.setValue(null);
+    	AlocTextFieldFinalDate.setValue(null);
     	
     }
     
     //////
-    // Calculation of the value based in the Date given in AlocPanel
+    // Calculation of the value based in the Date given in AlocPanel and in the Equipments added to the aloc
     /////    
     
     private double calcValue(LocalDate ini, LocalDate fin, Locacao loc) {
-    	
-    	double value;
-    			    	
+    	    			    	
     	double diaria = 0, semanal = 0, quinzenal = 0, mensal = 0;
     			
     	for(int i = 0 ; i < loc.getEquipamentos().size() ; i++) {
@@ -1004,7 +1154,7 @@ public class MainViewController implements Initializable {
     	int semanas = (diastotal - meses*30 - quinzenas*15)/7;
     	int dias = diastotal - meses*30 - quinzenas*15 - semanas*7;    	
     			
-    	return value = meses*mensal + quinzenas*quinzenal + semanas*semanal + dias*diaria;    	
+    	return (meses*mensal + quinzenas*quinzenal + semanas*semanal + dias*diaria);    	
     	
     }   
     
@@ -1014,8 +1164,8 @@ public class MainViewController implements Initializable {
     
     @FXML
     void searchID(ActionEvent event) throws Exception{
-
-    	int index = 0;
+    	
+      	int index = 0;
     	
     	for (index = 0 ; index < observableList.size() ; index++) {
     		if(observableList.get(index).getId() == Integer.parseInt(AlocTextFieldID.getText()))
@@ -1028,7 +1178,9 @@ public class MainViewController implements Initializable {
     		throw new Exception("CLIENTE NÃO ENCONTRADO");
     	}
     	else
-    		AlocIndex = index;
+    		AlocIndex = index; // sets the global AlocIndex that will get the adresses from the cliente (if its -1 then nothing was found)
+    	
+    	ObservableList<Endereco> aux = FXCollections.observableArrayList();
     	
     	aux = FXCollections.observableArrayList(observableList.get(index).getEnderecos());
     	ObservableList<String> AdressNameList = FXCollections.observableArrayList();
@@ -1065,19 +1217,26 @@ public class MainViewController implements Initializable {
     // Searches for the Equipamento that matches to the EquipName in the ChoiceBox in AlocPanel
     /////
     
-    Equipamento searchEquip(String EquipName) {
-    	for( int i = 0 ; i < observableEquipList.size() ; i++) {
-    		if(observableEquipList.get(i).getNome().equals(EquipName)) {
-    			auxNameList.remove(observableEquipList.get(i).getNome());
-    			break;
-    		}    			
-    	}
+    Equipamento searchEquip(String EquipName) throws Exception{
+    	    	
+    	System.out.println(EquipName);
+    	System.out.println(observableEquipList);
     	
     	for( int i = 0 ; i < observableEquipList.size() ; i++) {
     		if(observableEquipList.get(i).getNome().equals(EquipName)) {
     			return observableEquipList.get(i);
     		}    			
+    		if(i == observableEquipList.size() - 1) {
+    			/// Checking the data
+    	    	Alert alert = new Alert(AlertType.ERROR);
+    	    	alert.setTitle("Error Dialog");
+    	    	alert.setHeaderText("ERRO NA LOCAÇÃO");
+    	    	alert.setContentText("O Equipamento escolhido já está alocado");
+        		alert.showAndWait();
+    			throw new Exception("ID NÃO ENCONTRADO");    	
+    		}
     	}
+    	
     	
     	return null;
     	
@@ -1088,14 +1247,54 @@ public class MainViewController implements Initializable {
     /////
     
     @FXML
-    void AddEquipAloc(ActionEvent event) {
+    void AddEquipAloc(ActionEvent event) throws Exception {
     	
     	Equipamento equip = searchEquip(AlocChoiceBoxEquip.getValue());
     	obsEquipAlocList.add(equip);
-    	if(auxNameList.isEmpty())
-    		AlocChoiceBoxEquip.setDisable(true);
+    	equip.setStatus(true);
+    	
+    	for( int i = 0 ; i < auxNameList.size() ; i++) {
+    		if(equip.getNome().equals(auxNameList.get(i))) {
+    			auxNameList.set(i, auxNameList.get(i).concat(" - Alocado"));
+    			System.out.println("entrou alocado = " + auxNameList.get(i));
+    			
+    		}
+    	}
+    	//AlocChoiceBoxEquip.setItems(auxNameList);
     	
     	System.out.println(equip);
+    	
+    }
+    
+    //////
+    // Removes the equipament
+    /////
+    
+    @FXML
+    void RemoveEquipAloc(ActionEvent event) throws Exception {
+    	
+    	if(AlocChoiceBoxEquip.getValue().contains("Alocado")){
+    		String equipName = AlocChoiceBoxEquip.getValue().replace(" - Alocado", "");
+    		for(int i = 0; i < obsEquipAlocList.size() ; i++) {
+    			if(obsEquipAlocList.get(i).getNome().equals(equipName))
+    				obsEquipAlocList.remove(i);
+    		}  
+    		
+    		for(int i = 0; i < auxNameList.size() ; i++) {
+    			if(auxNameList.get(i).equals(AlocChoiceBoxEquip.getValue()))
+    				auxNameList.set(i, AlocChoiceBoxEquip.getValue().replace(" - Alocado", ""));
+    		}
+    	}
+    	
+    	else {
+    		/// The element in the ChoiceBox isn't alocated yet
+	    	Alert alert = new Alert(AlertType.ERROR);
+	    	alert.setTitle("Error Dialog");
+	    	alert.setHeaderText("ERRO NA LOCAÇÃO");
+	    	alert.setContentText("O Equipamento escolhido não está alocado");
+    		alert.showAndWait();
+			throw new Exception("O Equipamento escolhido não está alocado"); 
+    	}
     	
     }
     
@@ -1158,5 +1357,457 @@ public class MainViewController implements Initializable {
     	System.out.println("Locado");
     	
     }
+    
+    /////
+    // Edição
+    ////
+    
+    @FXML
+    void modifyClient(ActionEvent event) throws Exception{
+    	
+    	/// Checking the ID
+    	Alert alert = new Alert(AlertType.ERROR);
+    	alert.setTitle("Error Dialog");
+    	alert.setHeaderText("DADO INVÁLIDO!");
+    	
+    	if(observableList.isEmpty()) {
+    		alert.setContentText("Não existem clientes cadastrados.");
+    		alert.showAndWait();
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	if(!ListClientTextFieldID.getText().matches("[0-9]*")) {
+    		alert.setContentText("Digite um ID válido.");
+    		alert.showAndWait();
+    		ListClientTextFieldID.setText("");
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	int id = Integer.parseInt(ListClientTextFieldID.getText());
+    	
+    	for(int i = 0 ; i < observableList.size() ; i++) {
+    		if(id == (observableList.get(i).getId())) {
+    			// Cliente found  
+    			Cliente cli = observableList.get(i);
+    			listEditCliente(cli);
+    			GLOBALIDMODIFY = i;
+    			return;
+    		} 
+    		
+    		// No matches
+    		if(i == observableList.size() - 1) {
+    			alert.setContentText("Não foi encontrado nenhum Cliente com o ID especificado.");
+        		alert.showAndWait();
+        		ListClientTextFieldID.setText("");
+        		throw new Exception("DADOS INVÁLIDOS");
+    		}
+    			
+    	}   	
+    	
+    }
+    
+    void listEditCliente(Cliente cli) {
+    	
+    	/// Update the data based on the Cliente found
+    	observableAdressList.clear();
+    	observableAdressList.addAll(cli.getEnderecos());
+    	observableNameAdressList.clear();    	
+    	for(int i = 0 ; i < cli.getEnderecos().size() ; i++) {
+    		observableNameAdressList.add(cli.getEnderecos().get(i).getNome());
+    	}
+    	
+    	if(cli.getSexo() == 'M')	M.setSelected(true);
+    	else   	F.setSelected(false);
+    	
+    	ClientTextFieldCPF.setText(cli.getCpf());
+		ClientTextFieldEmail.setText(cli.getEmail());
+		ClientTextFieldName.setText(cli.getNome());
+		ClientTextFieldNumber.setText(cli.getTelefone());
+		ClienteChoiceBoxAdress.setDisable(false);
+		ClienteChoiceBoxAdress.setItems(observableNameAdressList);
+    	
+		/// Disable/Enable panels
+    	PanelAddClient.setVisible(true);
+    	PanelAddClient.setDisable(false);
+    	PanelAddEquip.setVisible(false);
+    	PanelAddEquip.setDisable(true);
+    	PanelAloc.setVisible(false);
+    	PanelAloc.setDisable(true);
+    	PanelList.setVisible(false);
+    	PanelList.setDisable(true);
+    	
+    	/// Buttons style
+    	Alocate.setStyle("-fx-background-color: #663399");
+    	AddClient.setStyle("-fx-background-color: #530D53");
+    	AddEquip.setStyle("-fx-background-color: #663399");
+    	List.setStyle("-fx-background-color: #663399");
+    	
+    	ClientNewClient.setText("Modificar Cliente");
+    	
+    	System.out.println("Client Panel");
+    }
+    
+    @FXML
+    void modifyEquip(ActionEvent event) throws Exception{
+    	
+    	/// Checking the ID
+    	Alert alert = new Alert(AlertType.ERROR);
+    	alert.setTitle("Error Dialog");
+    	alert.setHeaderText("DADO INVÁLIDO!");
+    	
+    	if(observableEquipList.isEmpty()) {
+    		alert.setContentText("Não existem equipamentos cadastrados.");
+    		alert.showAndWait();
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	if(!ListEquipTextFieldID.getText().matches("[0-9]*")) {
+    		alert.setContentText("Digite um ID válido.");
+    		alert.showAndWait();
+    		ListEquipTextFieldID.setText("");
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	int id = Integer.parseInt(ListEquipTextFieldID.getText());
+    	
+    	for(int i = 0 ; i < observableEquipList.size() ; i++) {
+    		if(id == (observableEquipList.get(i).getId())) {
+    			// Equip found  
+    			Equipamento equip = observableEquipList.get(i);
+    			listEditEquip(equip);
+    			GLOBALIDMODIFY = i;
+    			return;
+    		} 
+    		
+    		// No matches
+    		if(i == observableEquipList.size() - 1) {
+    			alert.setContentText("Não foi encontrado nenhum Equipamento com o ID especificado.");
+        		alert.showAndWait();
+        		ListEquipTextFieldID.setText("");
+        		throw new Exception("DADOS INVÁLIDOS");
+    		}
+    			
+    	}   	
+    	
+    }
+    
+    void listEditEquip(Equipamento equip) {
+    	
+		EquipTextFieldName.setText(equip.getNome());
+    	EquipTextFieldDescription.setText(equip.getDescricao());
+		EquipTextFieldDiaria.setText(String.valueOf(equip.getDiaria()));
+		EquipTextFieldSemanal.setText(String.valueOf(equip.getSemanal()));
+		EquipTextFieldQuinzenal.setText(String.valueOf(equip.getQuinzenal()));
+		EquipTextFieldMensal.setText(String.valueOf(equip.getMensal()));
+    	
+		/// Disable/Enable panels
+    	PanelAddClient.setVisible(false);
+    	PanelAddClient.setDisable(true);
+    	PanelAddEquip.setVisible(true);
+    	PanelAddEquip.setDisable(false);
+    	PanelAloc.setVisible(false);
+    	PanelAloc.setDisable(true);
+    	PanelList.setVisible(false);
+    	PanelList.setDisable(true);
+    	
+    	/// Buttons style
+    	Alocate.setStyle("-fx-background-color: #663399");
+    	AddClient.setStyle("-fx-background-color: #663399");
+    	AddEquip.setStyle("-fx-background-color: #530D53");
+    	List.setStyle("-fx-background-color: #663399");
+    	
+    	EquipNewEquip.setText("Modificar Equipamento");
+    	
+    	System.out.println("Equip Edit Panel");
+    }
+    
+    @FXML
+    void modifyAloc(ActionEvent event) throws Exception{
+
+    	/// Checking the ID
+    	Alert alert = new Alert(AlertType.ERROR);
+    	alert.setTitle("Error Dialog");
+    	alert.setHeaderText("DADO INVÁLIDO!");
+    	
+    	if(observableAlocList.isEmpty()) {
+    		alert.setContentText("Não existem locações cadastradas.");
+    		alert.showAndWait();
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	if(!ListAlocTextFieldID.getText().matches("[0-9]*")) {
+    		alert.setContentText("Digite um ID válido.");
+    		alert.showAndWait();
+    		ListAlocTextFieldID.setText("");
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	// Getting the ID
+    	int id = Integer.parseInt(ListAlocTextFieldID.getText());
+    	
+    	// Searching for the Locacao with the ID selected
+    	for(int i = 0 ; i < observableAlocList.size() ; i++) {
+    		if(id == (observableAlocList.get(i).getId())) {
+    			// Aloc found  
+    			Locacao aloc = observableAlocList.get(i);
+    			listEditAloc(aloc);
+    			GLOBALIDMODIFY = i;
+    			return;
+    		} 
+    		
+    		// No matches
+    		if(i == observableAlocList.size() - 1) {
+    			alert.setContentText("Não foi encontrado nenhuma Locacao com o ID especificado.");
+        		alert.showAndWait();
+        		ListAlocTextFieldID.setText("");
+        		throw new Exception("DADOS INVÁLIDOS");
+    		}
+    			
+    	}   	
+    	
+    }
+    
+    void listEditAloc(Locacao aloc) {    	
+
+    	// Clears and get the info based on the aloc
+    	observableAdressList.clear();
+    	observableAdressList.addAll(aloc.getEndereco());
+    	observableNameAdressList.clear();
+    	observableNameAdressList.add(aloc.getEndereco().getNome());    	
+    	obsEquipAlocList.clear();
+    	obsEquipAlocList.addAll(aloc.getEquipamentos());
+    	auxNameList.clear();
+    	AlocTextFieldInitialDate.setValue(aloc.getData_inicio());
+    	AlocTextFieldFinalDate.setValue(aloc.getData_final());
+    	
+    	
+    	
+    	// Checa se um equipamento foi alocado baseado na observableEquipList (que contém todos os equips)
+    	// Se foi alocado, concatena (" - Alocado") a lista do ChoiceBox que contém somente os nomes dos equipamentos
+    	for(int i = 0; i < observableEquipList.size(); i++) {
+    		for(int j = 0; j < obsEquipAlocList.size(); j++) {
+    			if(observableEquipList.get(i).equals(obsEquipAlocList.get(j))) {
+    				auxNameList.add(observableEquipList.get(i).getNome().concat(" - Alocado"));
+    				break;
+    			}
+    			if(j == obsEquipAlocList.size() - 1)
+    				auxNameList.add(observableEquipList.get(i).getNome());    				
+    		}
+    	}
+    	
+    	//System.out.println("observableEquipList:");
+    	//System.out.println(observableEquipList);
+    	//System.out.println("obsEquipAlocList:");
+    	//System.out.println(obsEquipAlocList);
+    	//System.out.println("auxNameList:");
+    	//System.out.println(auxNameList);
+    	
+    	AlocTextFieldID.setText(String.valueOf(aloc.getCliente().getId()));
+		AlocChoiceBoxAdress.setItems(observableNameAdressList);
+		AlocTextFieldInitialDate.setValue(aloc.getData_inicio());
+		AlocTextFieldFinalDate.setValue(aloc.getData_final());
+		AlocChoiceBoxEquip.setItems(auxNameList);
+		
+		/// Disable/Enable panels
+    	PanelAddClient.setVisible(false);
+    	PanelAddClient.setDisable(true);
+    	PanelAddEquip.setVisible(false);
+    	PanelAddEquip.setDisable(true);
+    	PanelAloc.setVisible(true);
+    	PanelAloc.setDisable(false);
+    	PanelList.setVisible(false);
+    	PanelList.setDisable(true);
+    	
+    	/// Buttons style
+    	Alocate.setStyle("-fx-background-color: #530D53");
+    	AddClient.setStyle("-fx-background-color: #663399");
+    	AddEquip.setStyle("-fx-background-color: #663399");
+    	List.setStyle("-fx-background-color: #663399");
+    	
+    	AlocNewAloc.setText("Modificar Alocação");
+    	    	
+    	System.out.println("Equip Edit Panel");
+    }
+    
+    @FXML
+    void deleteClient(ActionEvent event) throws Exception{
+    	
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Confirmation Dialog");
+    	alert.setHeaderText("Excluir Cliente");
+    	alert.setContentText("Você tem certeza disso?");
+
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.OK){
+    	    // ... user chose OK
+    		delCli();
+    		ClientTableView.setItems(observableList);
+    	} else {
+    	    // ... user chose CANCEL or closed the dialog
+    	}
+    	
+    }
+    
+    void delCli() throws Exception{
+    	
+    	/// Checking the ID
+    	Alert alert = new Alert(AlertType.ERROR);
+    	alert.setTitle("Error Dialog");
+    	alert.setHeaderText("DADO INVÁLIDO!");
+    	
+    	if(observableList.isEmpty()) {
+    		alert.setContentText("Não existem clientes cadastrados.");
+    		alert.showAndWait();
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	for(int i = 0; i < observableList.size(); i++) {
+    		if(observableList.get(i).getId() == Integer.parseInt(ListClientTextFieldID.getText())) {
+    			observableList.remove(i);
+    			return;
+    		}
+    		
+    		if(i == observableList.size() - 1) {
+    			alert.setContentText("Não foi encontrado nenhum Cliente com o ID especificado.");
+        		alert.showAndWait();
+        		ListClientTextFieldID.setText("");
+        		throw new Exception("DADOS INVÁLIDOS");
+    		}
+    	}
+    }
+    
+    @FXML
+    void deleteEquip(ActionEvent event) throws Exception{
+    	
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Confirmation Dialog");
+    	alert.setHeaderText("Excluir Equipamento");
+    	alert.setContentText("Você tem certeza disso?");
+
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.OK){
+    	    // ... user chose OK
+    		delEquip();
+    		EquipTableView.setItems(observableEquipList);
+    	} else {
+    	    // ... user chose CANCEL or closed the dialog
+    	}
+    	
+    }
+    
+    void delEquip() throws Exception{
+    	/// Checking the ID
+    	Alert alert = new Alert(AlertType.ERROR);
+    	alert.setTitle("Error Dialog");
+    	alert.setHeaderText("DADO INVÁLIDO!");
+    	
+    	if(observableEquipList.isEmpty()) {
+    		alert.setContentText("Não existem equipamentos cadastrados.");
+    		alert.showAndWait();
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	for(int i = 0; i < observableEquipList.size(); i++) {
+    		if(observableEquipList.get(i).getId() == Integer.parseInt(ListEquipTextFieldID.getText())) {
+    			observableEquipList.remove(i);
+    			return;
+    		}
+    		
+    		if(i == observableEquipList.size() - 1) {
+    			alert.setContentText("Não foi encontrado nenhum Equipamento com o ID especificado.");
+        		alert.showAndWait();
+        		ListEquipTextFieldID.setText("");
+        		throw new Exception("DADOS INVÁLIDOS");
+    		}
+    	}
+    }
+    
+    @FXML
+    void deleteAloc(ActionEvent event) throws Exception{
+    	
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.setTitle("Confirmation Dialog");
+    	alert.setHeaderText("Excluir Locação");
+    	alert.setContentText("Você tem certeza disso?");
+
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.OK){
+    	    // ... user chose OK
+    		delAloc();
+    		AlocTableView.setItems(observableAlocList);
+    	} else {
+    	    // ... user chose CANCEL or closed the dialog
+    	}
+    	
+    }
+    
+    void delAloc() throws Exception{
+    	/// Checking the ID
+    	Alert alert = new Alert(AlertType.ERROR);
+    	alert.setTitle("Error Dialog");
+    	alert.setHeaderText("DADO INVÁLIDO!");
+    	
+    	if(observableList.isEmpty()) {
+    		alert.setContentText("Não existem locações cadastradas.");
+    		alert.showAndWait();
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	for(int i = 0; i < observableAlocList.size(); i++) {
+    		if(observableAlocList.get(i).getId() == Integer.parseInt(ListAlocTextFieldID.getText())) {
+    			observableAlocList.remove(i);
+    			return;
+    		}
+    		
+    		if(i == observableAlocList.size() - 1) {
+    			alert.setContentText("Não foi encontrado nenhuma Locação com o ID especificado.");
+        		alert.showAndWait();
+        		ListAlocTextFieldID.setText("");
+        		throw new Exception("DADOS INVÁLIDOS");
+    		}
+    	}
+    }
+    
+    /////
+    // Gerar PDF
+    /////
+    
+    @FXML
+    void generatePDF(ActionEvent event) throws Exception{
+    	
+    	Locacao aloc;
+    	
+    	/// Checking the ID
+    	Alert alert = new Alert(AlertType.ERROR);
+    	alert.setTitle("Error Dialog");
+    	alert.setHeaderText("DADO INVÁLIDO!");
+    	
+    	if(observableList.isEmpty()) {
+    		alert.setContentText("Não existem locações cadastradas.");
+    		alert.showAndWait();
+    		throw new Exception("DADOS INVÁLIDOS");
+    	}
+    	
+    	for(int i = 0; i < observableAlocList.size(); i++) {
+    		if(observableAlocList.get(i).getId() == Integer.parseInt(ListAlocTextFieldIDPDF.getText())) {
+    			aloc = observableAlocList.get(i); 
+    			break;
+    		}
+    		
+    		if(i == observableAlocList.size() - 1) {
+    			alert.setContentText("Não foi encontrado nenhuma Locação com o ID especificado.");
+        		alert.showAndWait();
+        		ListAlocTextFieldID.setText("");
+        		throw new Exception("CLIENTE NÃO ENCONTRADO");
+    		}
+    	}
+    	
+    	// aloc contém a locação selecionada com todos os valores
+    	
+    	
+    }
+    
+  
+    
     
 }

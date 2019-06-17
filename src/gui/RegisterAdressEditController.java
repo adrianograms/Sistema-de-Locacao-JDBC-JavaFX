@@ -22,8 +22,6 @@ public class RegisterAdressEditController implements Initializable{
 
 	String RegexCEP = "[0-9]{5}-[0-9]{3}";
 	
-	int countID = 0;
-	
 	static boolean active = true;
 	
 	@FXML
@@ -64,7 +62,7 @@ public class RegisterAdressEditController implements Initializable{
 		Endereco adr;		
 		
 		for(int i = 0; i < MainViewController.observableAdressList.size(); i++) {
-			if( MainViewController.observableAdressList.get(i).getNome() == MainViewController.a) {
+			if( MainViewController.observableAdressList.get(i).getNome() == MainViewController.auxAdressName) {
 				adr = new Endereco(MainViewController.observableAdressList.get(i));
 				AdressTextFieldName.setText(adr.getNome());
 				AdressTextFieldBairro.setText(adr.getBairro());
@@ -184,9 +182,7 @@ public class RegisterAdressEditController implements Initializable{
     	MainViewController.observableAdressList.get(index).setCep(AdressTextFieldCEP.getText());
     	MainViewController.observableAdressList.get(index).setRua(AdressTextFieldStreet.getText());
     	MainViewController.observableAdressList.get(index).setEstado(AdressTextFieldUF.getText());    	
-		
-		countID++;
-  		
+		  		
 		System.out.println("Cadastrando...");
 		
 		MainViewController.observableNameAdressList.set(index, MainViewController.observableAdressList.get(index).getNome());
