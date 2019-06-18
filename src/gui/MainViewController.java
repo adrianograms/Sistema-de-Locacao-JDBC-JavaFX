@@ -40,6 +40,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.entities.*;
+import model.services.EquipamentoService;
 
 public class MainViewController implements Initializable {
 
@@ -73,6 +74,8 @@ public class MainViewController implements Initializable {
 	String RegexDate = "[0-9]{2}/[0-9]{2}/[0-9]{4}";
 	
 	public static Stage stage = new Stage();
+	
+	private EquipamentoService equipamentoService;
 	
     @FXML
     private AnchorPane PanelHeader;
@@ -325,6 +328,8 @@ public class MainViewController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+		
+		setEquipamentoService(new EquipamentoService());
 				
 		/// Setting ClientTableView
 		ClientTableViewID.setCellValueFactory(new PropertyValueFactory<Cliente, Integer>("id"));
@@ -901,6 +906,8 @@ public class MainViewController implements Initializable {
     	
     	/// Adding it to the ObservableList used in ListPanel
     	observableEquipList.add(equip);
+    	equip.setId(null);
+    	equipamentoService.saveOrUpdate(equip);
     	/// This ObservableList is used to fill the ChoiceBoxes with only the name of the Equipamento
     	observableNameEquipList.add(EquipTextFieldName.getText());
     	
@@ -1158,5 +1165,9 @@ public class MainViewController implements Initializable {
     	System.out.println("Locado");
     	
     }
+
+	public void setEquipamentoService(EquipamentoService equipamentoService) {
+		this.equipamentoService = equipamentoService;
+	}
     
 }
