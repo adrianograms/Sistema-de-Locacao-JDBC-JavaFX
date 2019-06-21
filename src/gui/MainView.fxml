@@ -90,7 +90,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Hyperlink fx:id="HiperlinkSobre" prefHeight="26.0" prefWidth="54.0" text="Sobre..." textFill="#f5f5f5" underline="true">
+                  <Hyperlink fx:id="HiperlinkSobre" onAction="#sobrePanel" prefHeight="26.0" prefWidth="54.0" text="Sobre..." textFill="#f5f5f5" underline="true">
                      <VBox.margin>
                         <Insets bottom="20.0" left="30.0" right="30.0" top="100.0" />
                      </VBox.margin>
@@ -390,6 +390,20 @@
                               <Insets left="20.0" top="17.0" />
                            </HBox.margin>
                         </Button>
+                        <Button fx:id="AlocRemoveEquip" mnemonicParsing="false" onAction="#RemoveEquipAloc" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: #663399;" text="Remover" textFill="WHITE">
+                           <effect>
+                              <Glow />
+                           </effect>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets left="20.0" top="17.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -498,7 +512,7 @@
                               <TableColumn fx:id="ClientTableViewTelephone" prefWidth="159.0" text="Telefone" />
                           </columns>
                         </TableView>
-                        <HBox layoutX="26.0" layoutY="14.0" prefHeight="48.0" prefWidth="312.0">
+                        <HBox layoutX="26.0" layoutY="14.0" prefHeight="48.0" prefWidth="323.0">
                            <children>
                               <Label text="ID:">
                                  <HBox.margin>
@@ -510,7 +524,7 @@
                                     <Insets left="20.0" right="40.0" top="10.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Button fx:id="ListClientButtonModificate" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
+                              <Button fx:id="ListClientButtonModificate" mnemonicParsing="false" onAction="#modifyClient" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
                                  <effect>
                                     <Glow />
                                  </effect>
@@ -523,6 +537,20 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                              </Button>
+                              <Button fx:id="ListClientButtonDelete" mnemonicParsing="false" onAction="#deleteClient" prefHeight="30.0" prefWidth="66.0" style="-fx-background-color: #663399;" text="Excluir" textFill="WHITE">
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="7.0" />
+                                 </HBox.margin>
                               </Button>
                            </children>
                         </HBox>
@@ -576,7 +604,7 @@
                                     <Insets left="20.0" right="40.0" top="10.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Button fx:id="ListEquipButtonModificate" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
+                              <Button fx:id="ListEquipButtonModificate" mnemonicParsing="false" onAction="#modifyEquip" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
                                  <effect>
                                     <Glow />
                                  </effect>
@@ -589,6 +617,20 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                              </Button>
+                              <Button fx:id="ListEquipButtonDelete" mnemonicParsing="false" onAction="#deleteEquip" prefHeight="30.0" prefWidth="66.0" style="-fx-background-color: #663399;" text="Excluir" textFill="WHITE">
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="7.0" />
+                                 </HBox.margin>
                               </Button>
                            </children>
                         </HBox>
@@ -622,7 +664,7 @@
                                     <Insets left="20.0" right="40.0" top="10.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Button fx:id="ListAlocButtonModificate" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
+                              <Button fx:id="ListAlocButtonModificate" mnemonicParsing="false" onAction="#modifyAloc" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
                                  <effect>
                                     <Glow />
                                  </effect>
@@ -635,6 +677,20 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                              </Button>
+                              <Button fx:id="ListAlocButtonDelete" mnemonicParsing="false" onAction="#deleteAloc" prefHeight="30.0" prefWidth="66.0" style="-fx-background-color: #663399;" text="Excluir" textFill="WHITE">
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="7.0" />
+                                 </HBox.margin>
                               </Button>
                            </children>
                         </HBox>
@@ -650,7 +706,7 @@
                                     <Insets left="20.0" right="40.0" top="10.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Button fx:id="ListAlocButtonPDF" mnemonicParsing="false" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: #663399;" text="Gerar PDF" textFill="WHITE">
+                              <Button fx:id="ListAlocButtonPDF" mnemonicParsing="false" onAction="#generatePDF" prefHeight="30.0" prefWidth="125.0" style="-fx-background-color: #663399;" text="Gerar PDF" textFill="WHITE">
                                  <effect>
                                     <Glow />
                                  </effect>
@@ -669,82 +725,16 @@
                      </children>
                   </AnchorPane>
                </content></Tab>
-            <Tab style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;" text="Endereços">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="AdressTableView" layoutX="27.0" layoutY="80.0" prefHeight="385.0" prefWidth="719.0" style="-fx-border-color: #8A2BE2;">
-                           <columns>
-                              <TableColumn fx:id="AdressTableViewID" prefWidth="56.0" text="ID" />
-                              <TableColumn fx:id="AdressTableViewStreet" prefWidth="137.0" text="Rua" />
-                              <TableColumn fx:id="AdressTableViewNumber" minWidth="0.0" prefWidth="66.0" text="Número" />
-                              <TableColumn fx:id="AdressTableViewCEP" minWidth="0.0" prefWidth="87.0" text="CEP" />
-                              <TableColumn fx:id="AdressTableViewBairro" prefWidth="135.0" text="Bairro" />
-                              <TableColumn fx:id="AdressTableViewCity" minWidth="0.0" prefWidth="131.0" text="Cidade" />
-                              <TableColumn fx:id="AdressTableViewUF" prefWidth="105.0" text="UF" />
-                           </columns>
-                        </TableView>
-                        <HBox layoutX="27.0" layoutY="14.0" prefHeight="48.0" prefWidth="312.0">
-                           <children>
-                              <Label text="ID:">
-                                 <HBox.margin>
-                                    <Insets top="15.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField fx:id="ListAdressTextFieldIDSearch" alignment="CENTER" prefHeight="27.0" prefWidth="50.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
-                                 <HBox.margin>
-                                    <Insets left="20.0" right="40.0" top="10.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Button fx:id="ListAdressButtonSearch" mnemonicParsing="false" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #663399;" text="Buscar" textFill="WHITE">
-                                 <effect>
-                                    <Glow />
-                                 </effect>
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets top="7.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </children>
-                        </HBox>
-                        <HBox layoutX="536.0" layoutY="14.0" prefHeight="48.0" prefWidth="210.0">
-                           <children>
-                              <Label text="ID:">
-                                 <HBox.margin>
-                                    <Insets top="15.0" />
-                                 </HBox.margin>
-                              </Label>
-                              <TextField fx:id="ListAdressTextFieldID" alignment="CENTER" disable="true" prefHeight="27.0" prefWidth="50.0" style="-fx-border-color: #8A2BE2; -fx-border-style: dotted; -fx-border-width: 1px;">
-                                 <HBox.margin>
-                                    <Insets left="20.0" right="40.0" top="10.0" />
-                                 </HBox.margin>
-                              </TextField>
-                              <Button fx:id="ListAdressButtonModificate" disable="true" mnemonicParsing="false" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #663399;" text="Modificar" textFill="WHITE">
-                                 <effect>
-                                    <Glow />
-                                 </effect>
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets top="7.0" />
-                                 </HBox.margin>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
         </tabs>
       </TabPane>
+      <AnchorPane fx:id="PanelSobre" layoutX="124.0" layoutY="78.0" prefHeight="527.0" prefWidth="773.0">
+         <children>
+            <ImageView fitHeight="527.0" fitWidth="773.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/SobrePanelImg.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

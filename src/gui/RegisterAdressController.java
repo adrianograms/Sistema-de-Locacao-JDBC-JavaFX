@@ -21,9 +21,7 @@ import model.entities.Cliente;
 public class RegisterAdressController implements Initializable{
 
 	String RegexCEP = "[0-9]{5}-[0-9]{3}";
-	
-	int countID = 0;
-	
+		
 	static boolean active = true;
 	
 	@FXML
@@ -146,14 +144,6 @@ public class RegisterAdressController implements Initializable{
     		throw new Exception("DADOS INVÁLIDOS");
     	}
     	
-		
-//    	// Checking the data
-//    	if(!AdressTextFieldCEP.getText().matches(RegexCEP) || AdressTextFieldBairro.getText().isEmpty()
-//    			|| AdressTextFieldCity.getText().isEmpty() || AdressTextFieldName.getText().isEmpty() 
-//    			|| AdressTextFieldNumber.getText().isEmpty() || AdressTextFieldUF.getText().isEmpty() ) {     		
-//    		throw new Exception("DADOS INVÁLIDOS");
-//    	}
-    	
     	// Checks if the name choosed is unique
     	for(int i = 0; i < MainViewController.observableNameAdressList.size(); i++) {
     		if(AdressTextFieldName.getText().equals( MainViewController.observableNameAdressList.get(i))) {				
@@ -164,12 +154,12 @@ public class RegisterAdressController implements Initializable{
     		}
     	}
     	
-    	adr = new Endereco(countID, AdressTextFieldCEP.getText(), AdressTextFieldBairro.getText(), AdressTextFieldNumber.getText(),
+    	adr = new Endereco(MainViewController.countAdressID, AdressTextFieldCEP.getText(), AdressTextFieldBairro.getText(), AdressTextFieldNumber.getText(),
     			 AdressTextFieldStreet.getText(), AdressTextFieldCity.getText(), AdressTextFieldUF.getText(), AdressTextFieldName.getText());    	
     	
     	MainViewController.observableAdressList.add(adr);
 		
-		countID++;
+    	MainViewController.countAdressID++;
   		
 		System.out.println("Cadastrando...");
 		

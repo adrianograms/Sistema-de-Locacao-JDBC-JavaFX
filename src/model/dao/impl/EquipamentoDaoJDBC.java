@@ -98,7 +98,7 @@ public class EquipamentoDaoJDBC implements EquipamentoDao {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-				"DELETE FROM department WHERE Id = ?");
+				"DELETE FROM equipamento WHERE idequipamento = ?");
 
 			st.setInt(1, id);
 
@@ -119,7 +119,7 @@ public class EquipamentoDaoJDBC implements EquipamentoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM equipamento WHERE Id = ?");
+				"SELECT * FROM equipamento WHERE idequipamento = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
@@ -152,14 +152,14 @@ public class EquipamentoDaoJDBC implements EquipamentoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-				"SELECT * FROM equipamento ORDER BY Name");
+				"SELECT * FROM equipamento ORDER BY nome");
 			rs = st.executeQuery();
 
 			List<Equipamento> list = new ArrayList<>();
 
 			while (rs.next()) {
 				Equipamento obj = new Equipamento();
-				obj.setId(rs.getInt("Id"));
+				obj.setId(rs.getInt("idequipamento"));
 				obj.setNome((rs.getString("nome")));
 				obj.setDiaria((rs.getDouble(("diaria"))));
 				obj.setSemanal((rs.getDouble(("semanal"))));

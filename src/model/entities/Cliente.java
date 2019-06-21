@@ -95,6 +95,10 @@ public class Cliente implements Serializable {
 			enderecos = new ArrayList<Endereco>();
 		enderecos.addAll(endereco);
 	}
+	
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
 
 	@Override
 	public int hashCode() {

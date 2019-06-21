@@ -72,6 +72,7 @@ public class Locacao implements Serializable {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+		this.nomeEndereco = endereco.getRua() + ", Número: " + endereco.getNumero() +  " - " + endereco.getCidade();
 	}
 
 	public Cliente getCliente() {
@@ -80,6 +81,7 @@ public class Locacao implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+		this.nomeCliente = cliente.getNome();
 	}
 
 	public List<Equipamento> getEquipamentos() {
@@ -91,10 +93,14 @@ public class Locacao implements Serializable {
 			equipamentos = new ArrayList<Equipamento>();
 		this.equipamentos.add(equipamento);
 	}
-	public void setEquipamentos(ObservableList equipamento) {
+	public void setEquipamentos(ObservableList<Equipamento> equipamento) {
 		if(equipamentos == null)
 			equipamentos = new ArrayList<Equipamento>();
 		this.equipamentos.addAll(equipamento);
+	}
+	
+	public void setEquipamentos(List<Equipamento> equipamento) {
+		this.equipamentos = equipamento;
 	}
 
 	@Override
@@ -143,6 +149,7 @@ public class Locacao implements Serializable {
 	public void setNomeEndereco(String nomeEndereco) {
 		this.nomeEndereco = nomeEndereco;
 	}
+	
 	
 	
 	
