@@ -13,6 +13,7 @@ import db.DbException;
 import model.dao.ClienteDao;
 import model.dao.EnderecoDao;
 import model.entities.Cliente;
+import model.entities.Endereco;
 
 public class ClienteDaoJDBC implements ClienteDao {
 	
@@ -79,6 +80,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 			st.setString(3, obj.getEmail());
 			st.setString(4, obj.getCpf());
 			st.setString(5, obj.getTelefone());
+			
+			st.setInt(6, obj.getId());
 
 			st.executeUpdate();
 		}

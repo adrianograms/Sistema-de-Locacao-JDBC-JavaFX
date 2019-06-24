@@ -11,5 +11,8 @@ public interface EnderecoDao {
 	void deleteById(Integer id);
 	void deleteAll(Integer id);
 	List<Endereco> findByIdCliente(Integer id);
+	void insert(Endereco obj, Cliente cli);
+	void update(Endereco obj);
+	void delete(Integer id);
 
 }

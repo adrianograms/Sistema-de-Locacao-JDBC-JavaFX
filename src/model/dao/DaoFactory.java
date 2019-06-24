@@ -2,6 +2,7 @@ package model.dao;
 
 import db.DB;
 import model.dao.impl.ClienteDaoJDBC;
+import model.dao.impl.EnderecoDaoJDBC;
 import model.dao.impl.EquipamentoDaoJDBC;
 import model.dao.impl.LocacaoDaoJDBC;
 

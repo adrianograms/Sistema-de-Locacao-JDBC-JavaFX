@@ -44,8 +44,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import model.dao.EnderecoDao;
+import model.dao.impl.EnderecoDaoJDBC;
 import model.entities.*;
 import model.services.ClienteService;
+import model.services.EnderecoService;
 import model.services.EquipamentoService;
 import model.services.LocacaoService;
 
@@ -110,6 +113,8 @@ public class MainViewController implements Initializable {
 	private ClienteService clienteService;
 	
 	private LocacaoService locacaoService;
+	
+	private EnderecoService enderecoService = new EnderecoService();
 
 	@FXML
 	private Button ListClientButtonDelete;
@@ -922,7 +927,12 @@ public class MainViewController implements Initializable {
         			observableList.set(i, cli);
         			break;
         		}
-    		}    		
+    		}
+    		
+    		clienteService.saveOrUpdate(cli);
+    		for(Endereco end : cli.getEnderecos()) {
+    			enderecoService.saveOrUpdate(end, cli);
+    		}
     		
     		System.out.println("Cliente Modificado.");
     		

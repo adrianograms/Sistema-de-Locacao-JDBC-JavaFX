@@ -24,6 +24,7 @@ public class RegisterAdressController implements Initializable{
 		
 	static boolean active = true;
 	
+	
 	@FXML
 	private AnchorPane PanelNewAdress;
 	
@@ -155,7 +156,9 @@ public class RegisterAdressController implements Initializable{
     	}
     	
     	adr = new Endereco(MainViewController.countAdressID, AdressTextFieldCEP.getText(), AdressTextFieldBairro.getText(), AdressTextFieldNumber.getText(),
-    			 AdressTextFieldStreet.getText(), AdressTextFieldCity.getText(), AdressTextFieldUF.getText(), AdressTextFieldName.getText());    	
+    			 AdressTextFieldStreet.getText(), AdressTextFieldCity.getText(), AdressTextFieldUF.getText(), AdressTextFieldName.getText()); 
+    	
+    	adr.setId(null);
     	
     	MainViewController.observableAdressList.add(adr);
 		

@@ -71,7 +71,7 @@ public class EnderecoDaoJDBC implements EnderecoDao {
 				Endereco obj = cliente.getEnderecos().get(i);
 				st = conn.prepareStatement(
 					"UPDATE endereco " +
-					"SET nome = ?, numero = ?, rua = ?, cep = ?, bairro = ? cidade = ?, uf = ?" +
+					"SET nome = ?, numero = ?, rua = ?, cep = ?, bairro = ? cidade = ?, uf = ? " +
 					"WHERE idendereco = ?");
 	
 				st.setString(1, obj.getNome());
@@ -160,6 +160,99 @@ public class EnderecoDaoJDBC implements EnderecoDao {
 		try {
 			st = conn.prepareStatement(
 				"DELETE FROM endereco WHERE id_cliente = ?");
+
+			st.setInt(1, id);
+
+			st.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} 
+		finally {
+			DB.closeStatement(st);
+		}
+		
+	}
+
+	@Override
+	public void insert(Endereco obj, Cliente cli) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"INSERT INTO endereco " +
+							"(nome, numero, rua, cep, bairro, cidade, uf, id_cliente) " +
+							"VALUES " +
+							"(?,?,?,?,?,?,?,?)", 
+							Statement.RETURN_GENERATED_KEYS); 
+
+			st.setString(1, obj.getNome());
+			st.setString(2, obj.getNumero());
+			st.setString(3, obj.getRua());
+			st.setString(4, obj.getCep());
+			st.setString(5, obj.getBairro());
+			st.setString(6, obj.getCidade());
+			st.setString(7, obj.getEstado());
+			st.setInt(8, cli.getId());
+
+			int rowsAffected = st.executeUpdate();
+
+			if (rowsAffected > 0) {
+				ResultSet rs = st.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					obj.setId(id);
+				}
+			}
+			else {
+				throw new DbException("Unexpected error! No rows affected!");
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} 
+		finally {
+			DB.closeStatement(st);
+		}
+		
+	}
+
+	@Override
+	public void update(Endereco obj) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+					"UPDATE endereco " +
+					"SET nome = ?, numero = ?, rua = ?, cep = ?, bairro = ?, cidade = ?, uf = ? " +
+					"WHERE idendereco = ?");
+	
+				st.setString(1, obj.getNome());
+				st.setString(2, obj.getNumero());
+				st.setString(3, obj.getRua());
+				st.setString(4, obj.getCep());
+				st.setString(5, obj.getBairro());
+				st.setString(6, obj.getCidade());
+				st.setString(7, obj.getEstado());
+				
+				st.setInt(8, obj.getId());
+	
+				st.executeUpdate();
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} 
+		finally {
+			DB.closeStatement(st);
+		}
+
+		
+	}
+
+	@Override
+	public void delete(Integer id) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement(
+				"DELETE FROM endereco WHERE idendereco = ?");
 
 			st.setInt(1, id);
 
