@@ -16,4 +16,7 @@ public class DaoFactory {
 	public static LocacaoDao createLocacaoDao() {
 		return new LocacaoDaoJDBC(DB.getConnection());
 	}
+	public static EnderecoDao createEnderecoDao() {
+		return new EnderecoDaoJDBC(DB.getConnection());
+	}
 }

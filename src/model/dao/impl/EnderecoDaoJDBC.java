@@ -16,7 +16,14 @@ import model.entities.Endereco;
 
 public class EnderecoDaoJDBC implements EnderecoDao {
 	
-	private Connection conn = DB.getConnection();
+	private Connection conn;
+	
+	public EnderecoDaoJDBC() {
+	}
+	
+	public EnderecoDaoJDBC(Connection conn) {
+		this.conn = conn;
+	}
 
 	@Override
 	public void insertAll(Cliente cliente) {

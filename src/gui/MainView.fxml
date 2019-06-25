@@ -172,7 +172,7 @@
                   <Label text="Endereço:" GridPane.rowIndex="3" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <ChoiceBox fx:id="ClienteChoiceBoxAdress" disable="true" prefHeight="27.0" prefWidth="183.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
+                        <ChoiceBox fx:id="ClienteChoiceBoxAdress" disable="true" prefHeight="27.0" prefWidth="153.0" style="-fx-border-color: #8A2BE2; -fx-border-width: 1px; -fx-border-style: dotted;">
                            <HBox.margin>
                               <Insets right="10.0" top="20.0" />
                            </HBox.margin>
@@ -185,11 +185,22 @@
                               <Glow />
                            </effect>
                            <HBox.margin>
-                              <Insets right="56.0" top="18.0" />
+                              <Insets right="10.0" top="18.0" />
                            </HBox.margin>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                        </Button>
+                        <Button fx:id="ClienteButtonDeleteAdress" layoutX="192.0" layoutY="28.0" mnemonicParsing="false" onAction="#deleteAdress" prefHeight="28.0" prefWidth="63.0" style="-fx-background-color: #663399;" text="Excluir" textFill="WHITE">
+                           <effect>
+                              <Glow />
+                           </effect>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets right="25.0" top="18.0" />
+                           </HBox.margin>
                         </Button>
                         <Button fx:id="ClientNewAdress" mnemonicParsing="false" onAction="#RegisterNewAdress" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: #663399;" text="Novo Endereço" textFill="WHITE">
                            <HBox.margin>

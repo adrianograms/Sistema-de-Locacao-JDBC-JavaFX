@@ -2,6 +2,7 @@ package model.services;
 
 import java.util.List;
 
+import db.DB;
 import model.dao.ClienteDao;
 import model.dao.DaoFactory;
 import model.dao.EnderecoDao;
@@ -11,7 +12,7 @@ import model.entities.Endereco;
 
 public class EnderecoService {
 	
-private EnderecoDao dao = new EnderecoDaoJDBC();
+private EnderecoDao dao = DaoFactory.createEnderecoDao();
 	
 	public void saveOrUpdate(Endereco end, Cliente cli) {
 		if (end.getId() == null) {
@@ -22,7 +23,7 @@ private EnderecoDao dao = new EnderecoDaoJDBC();
 		}
 	}
 	
-	public void remove(Cliente obj) {
+	public void remove(Endereco obj) {
 		dao.deleteById(obj.getId());
 	}
 

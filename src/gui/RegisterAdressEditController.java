@@ -17,6 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.WindowEvent;
 import model.entities.Cliente;
+import model.services.EnderecoService;
 
 public class RegisterAdressEditController implements Initializable{
 
@@ -50,6 +51,7 @@ public class RegisterAdressEditController implements Initializable{
 
     @FXML
     private Button ClientNewAdress;
+    
 
     int index = 0;
     
@@ -59,7 +61,7 @@ public class RegisterAdressEditController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 	
-		Endereco adr;		
+		Endereco adr;
 		
 		for(int i = 0; i < MainViewController.observableAdressList.size(); i++) {
 			if( MainViewController.observableAdressList.get(i).getNome() == MainViewController.auxAdressName) {

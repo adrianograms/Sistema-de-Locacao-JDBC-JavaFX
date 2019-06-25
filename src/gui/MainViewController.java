@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
+import javax.xml.bind.DataBindingException;
+
 import com.mysql.jdbc.UpdatableResultSet;
 
 import db.DbException;
@@ -114,7 +116,7 @@ public class MainViewController implements Initializable {
 	
 	private LocacaoService locacaoService;
 	
-	private EnderecoService enderecoService = new EnderecoService();
+	private EnderecoService enderecoService;
 
 	@FXML
 	private Button ListClientButtonDelete;
@@ -348,6 +350,9 @@ public class MainViewController implements Initializable {
     @FXML
     private TableColumn<Locacao, Double> AlocTableViewValue;
     
+    @FXML
+	private Button ClienteButtonDeleteAdress;
+    
 
 	public void setLocacaoService(LocacaoService locacaoService) {
 		this.locacaoService = locacaoService;
@@ -355,6 +360,10 @@ public class MainViewController implements Initializable {
 
 	public void setClienteService(ClienteService clienteService) {
 		this.clienteService = clienteService;
+	}
+	
+	public void setEnderecoService(EnderecoService enderecoService) {
+		this.enderecoService = enderecoService;
 	}
 
 	@Override
@@ -364,6 +373,7 @@ public class MainViewController implements Initializable {
 		setEquipamentoService(new EquipamentoService());
 		setClienteService(new ClienteService());
 		setLocacaoService(new LocacaoService());
+		setEnderecoService(new EnderecoService());
 				
 		/// Setting ClientTableView
 		ClientTableViewID.setCellValueFactory(new PropertyValueFactory<Cliente, Integer>("id"));
@@ -1926,6 +1936,80 @@ public class MainViewController implements Initializable {
     	
     }
     
+    @FXML
+    void deleteAdress(ActionEvent event) throws Exception {
+        
+        /// Checking the data
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Dialog");
+        alert.setHeaderText("DADOS INVÁLIDOS");
+        
+        /// If the ChoiceBox is disable (empty), do nothing
+        if(ClienteChoiceBoxAdress.isDisable() || ClienteChoiceBoxAdress.getValue() == null) {
+            alert.setContentText("Nenhum endereço selecionado para se excluir.");
+            alert.showAndWait();
+            throw new Exception("DADOS INVÁLIDOS");
+        }
+        
+        String nameAdress = ClienteChoiceBoxAdress.getValue();
+        
+        // if its modifying a client   
+        boolean flag = true;
+
+        
+        if(!ClientNewClient.getText().equals("Cadastrar Cliente")) {
+        
+            System.out.println(ClientNewClient.getText());
+            flag = false;
+            
+            Cliente cli = observableList.get(GLOBALIDMODIFY);
+                        
+            /// Removing the adress in the client            
+            for(int i = 0 ; i < observableAdressList.size() ; i++) {
+                if(observableAdressList.get(i).getNome().equals(nameAdress)) {
+                	try {
+                		for(int j =0; j< cli.getEnderecos().size(); j++) {
+                			if(cli.getEnderecos().get(j).getNome().equals(nameAdress)) {
+                           		System.out.println(nameAdress);
+                				enderecoService.remove(cli.getEnderecos().get(j));
+                				cli.getEnderecos().remove(j);
+                				flag = true;
+
+                			}
+                		}
+                	}
+                    catch(DbException e) {
+                    	Alert alertException = new Alert(AlertType.ERROR);
+        	    		alertException.setTitle("Error Dialog");
+        	    		alertException.setHeaderText("Excluir Equipamento");
+        	    		alertException.setContentText("Não é possivel excluir, pois esse endereco está "
+        	    				+ "relacionado a uma locação\n"
+        	    				+ "Caso queira continuar, apague primeiro a locação a a qual o endereco está relacionado");
+        	    		alertException.show();
+                    }
+                    /// >REMOÇÃO NO BANCO DE DADOS AQUI<
+                    
+                }
+            
+            }
+        
+        }
+        
+        /// Removing the address in the NameList
+        
+        for(int i = 0 ; i < observableNameAdressList.size() && flag == true; i++) {
+            if(observableNameAdressList.get(i).equals(nameAdress))
+                observableNameAdressList.remove(i);
+        }
+        
+        /// Removing the adress in the AdressList
+        
+        for(int i = 0 ; i < observableAdressList.size()  && flag == true; i++) {
+            if(observableAdressList.get(i).getNome().equals(nameAdress))
+                observableAdressList.remove(i);
+        }
+        
+    }    
   
     
     

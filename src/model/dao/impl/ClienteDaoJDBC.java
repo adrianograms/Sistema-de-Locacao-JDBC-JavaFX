@@ -19,10 +19,11 @@ public class ClienteDaoJDBC implements ClienteDao {
 	
 	private Connection conn;
 	
-	private EnderecoDao endDao = new EnderecoDaoJDBC();
+	private EnderecoDao endDao;
 	
 	public ClienteDaoJDBC(Connection conn) {
 		this.conn = conn;
+		endDao = new EnderecoDaoJDBC(conn);
 	}
 
 	@Override
